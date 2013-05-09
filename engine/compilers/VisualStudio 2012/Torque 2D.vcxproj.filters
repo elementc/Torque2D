@@ -1305,6 +1305,8 @@
     <ClCompile Include="..\..\source\2d\core\ImageFrameProviderCore.cc">
       <Filter>2d\core</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\2d\assets\TmxMapAsset.cc" />
+    <ClCompile Include="..\..\source\2d\sceneobject\TmxMapSprite.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\audio\audio.h">
@@ -2673,6 +2675,11 @@
     <ClInclude Include="..\..\source\2d\core\ImageFrameProviderCore.h">
       <Filter>2d\core</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\2d\assets\TmxMapAsset.h" />
+    <ClInclude Include="..\..\source\2d\assets\TmxMapAsset_ScriptBinding.h" />
+    <ClInclude Include="..\..\source\2d\sceneobject\TmxMapSprite.h" />
+    <ClInclude Include="..\..\source\2d\sceneobject\TmxMapSprite_ScriptBinding.h" />
+    <ClInclude Include="..\..\lib\TmxParser\Tmx.h" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\source\math\mMath_ASM.asm">
