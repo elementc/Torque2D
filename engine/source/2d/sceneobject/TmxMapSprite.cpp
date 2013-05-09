@@ -147,7 +147,7 @@ void TmxMapSprite::BuildMap()
 				F32 widthOffset = (spriteWidth - tileWidth) / 2;
 
 
-				Vector2 pos = TileToCoord( Vector2(x,y),
+				Vector2 pos = TileToCoord( Vector2(x,yTiles-y),
 					tileSize,
 					originSize,
 					orient == Tmx::TMX_MO_ISOMETRIC
@@ -257,7 +257,8 @@ Vector2 TmxMapSprite::TileToCoord(Vector2& pos, Vector2& tileSize, Vector2& offs
 	}
 	else
 	{
-		return pos;
+		Vector2 newpos(pos.x*tileSize.x, pos.y*tileSize.y);
+		return newpos;
 	}
 }
 
