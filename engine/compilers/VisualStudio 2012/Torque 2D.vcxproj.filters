@@ -1305,8 +1305,12 @@
     <ClCompile Include="..\..\source\2d\core\ImageFrameProviderCore.cc">
       <Filter>2d\core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\2d\assets\TmxMapAsset.cc" />
-    <ClCompile Include="..\..\source\2d\sceneobject\TmxMapSprite.cpp" />
+    <ClCompile Include="..\..\source\2d\assets\TmxMapAsset.cc">
+      <Filter>2d\assets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\2d\sceneobject\TmxMapSprite.cpp">
+      <Filter>2d\sceneobject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\audio\audio.h">
@@ -2675,11 +2679,19 @@
     <ClInclude Include="..\..\source\2d\core\ImageFrameProviderCore.h">
       <Filter>2d\core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\2d\assets\TmxMapAsset.h" />
-    <ClInclude Include="..\..\source\2d\assets\TmxMapAsset_ScriptBinding.h" />
-    <ClInclude Include="..\..\source\2d\sceneobject\TmxMapSprite.h" />
-    <ClInclude Include="..\..\source\2d\sceneobject\TmxMapSprite_ScriptBinding.h" />
     <ClInclude Include="..\..\lib\TmxParser\Tmx.h" />
+    <ClInclude Include="..\..\source\2d\assets\TmxMapAsset.h">
+      <Filter>2d\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\2d\assets\TmxMapAsset_ScriptBinding.h">
+      <Filter>2d\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\2d\sceneobject\TmxMapSprite.h">
+      <Filter>2d\sceneobject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\2d\sceneobject\TmxMapSprite_ScriptBinding.h">
+      <Filter>2d\sceneobject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\source\math\mMath_ASM.asm">

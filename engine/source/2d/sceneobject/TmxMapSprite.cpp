@@ -162,6 +162,7 @@ void TmxMapSprite::BuildMap()
 
 				compSprite->setSpriteFlipX(tile.flippedHorizontally);
 				compSprite->setSpriteFlipY(tile.flippedVertically);
+				compSprite->setBodyType(b2_staticBody);
 
 			}
 		}
