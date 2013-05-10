@@ -1,6 +1,10 @@
 #include "TmxMapSprite.h"
 
 #include "assets/assetManager.h"
+#include <string>
+
+//script bindings
+#include "TmxMapSprite_ScriptBinding.h"
 
 //-----------------------------------------------------------------------------
 
@@ -334,4 +338,41 @@ StringTableEntry TmxMapSprite::GetTilesetAsset(const Tmx::Tileset* tileSet)
 	}
 	
 	return assetName;
+}
+
+const char* TmxMapSprite::getTileProperty(StringTableEntry lName, StringTableEntry pName, int x,int y){
+	//we'll need a parser and to iterate over the layers
+	auto mapParser = mMapAsset->getParser();
+	auto layerItr = mapParser->GetLayers().begin();
+	for(layerItr; layerItr != mapParser->GetLayers().end(); ++layerItr)
+	{
+		Tmx::Layer* layer = *layerItr;
+
+		//look for a layer with a name that matches lName
+		if (std::string(lName) != layer->GetName())
+			continue;
+		//we found one, get the tile properties at the xy of that layer
+		Tmx::MapTile tile = layer->GetTile(x,y);
+		const Tmx::Tileset *tset = mapParser->GetTileset(tile.tilesetId);
+		//make sure they're asking for valid x and y
+		if (tset == nullptr)
+			return "";
+
+		const Tmx::PropertySet pset = tset->GetTile(tile.id)->GetProperties();
+		if (pset.HasProperty(pName)){
+
+			//we have the result, put it in the string table and return it
+			std::string presult = pset.GetLiteralProperty(pName);
+			StringTableEntry s = StringTable->insert(presult.c_str());
+
+			return s;
+		}
+		else
+			return "";
+	}
+
+	//no layer or property of that name. 
+	//return empty
+	return "";
+
 }

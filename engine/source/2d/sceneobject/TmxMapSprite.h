@@ -62,6 +62,7 @@ public:
 	inline StringTableEntry getMap( void ) const { return mMapAsset.getAssetId(); }
 	inline bool setMapToMeterFactor( F32 factor ) {mMapPixelToMeterFactor = factor; BuildMap(); return false;}
 	inline F32 getMapToMeterFactor( void ) const {return mMapPixelToMeterFactor;}
+	const char* getTileProperty(StringTableEntry lName, StringTableEntry pName, int x,int y);
 
 protected:
 	static bool setMap(void* obj, const char* data)                       { return static_cast<TmxMapSprite*>(obj)->setMap(data);}

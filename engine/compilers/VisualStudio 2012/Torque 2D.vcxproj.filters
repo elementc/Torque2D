@@ -2710,4 +2710,8 @@
   <ItemGroup>
     <ResourceCompile Include="Torque 2D.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
+  </ItemGroup>
 </Project>

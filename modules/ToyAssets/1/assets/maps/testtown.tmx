@@ -325,7 +325,7 @@
   </tile>
   <tile id="26">
    <properties>
-    <property name="Tag" value="TileCollision"/>
+    <property name="tag" value="TileCollision"/>
    </properties>
   </tile>
   <tile id="32">
@@ -380,6 +380,9 @@
   </data>
  </layer>
  <layer name="Collision" width="40" height="40">
+  <properties>
+   <property name="Render" value="false"/>
+  </properties>
   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAAC+3QsQ0AMAgDMPoE/5/aA9oBJAYGW8oWZUgEAAAAAADskOdNpTexSc/v1025fiPQSgAZAAA=
   </data>
