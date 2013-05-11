@@ -414,5 +414,14 @@
   <object x="231" y="1003" width="61" height="58">
    <ellipse/>
   </object>
+  <object x="481" y="903" width="223" height="52"/>
+  <object x="616" y="818" width="95" height="79"/>
+  <object x="468" y="805" width="146" height="93"/>
+  <object x="491" y="769" width="100" height="34"/>
+  <object x="519" y="740" width="50" height="26"/>
+  <object x="821" y="803" width="147" height="73"/>
+  <object x="832" y="881" width="128" height="75"/>
+  <object x="847" y="782" width="92" height="18"/>
+  <object x="873" y="757" width="51" height="24"/>
  </objectgroup>
 </map>

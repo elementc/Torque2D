@@ -220,11 +220,15 @@ void TmxMapSprite::BuildMap()
 				if (object->GetPolyline() != nullptr){
 					addPhysicsPolyLine(object, compSprite);
 				}
-				if (object->GetPolygon() != nullptr){
+				else if (object->GetPolygon() != nullptr){
 					addPhysicsPolygon(object, compSprite);
 				}
-				if (object->GetEllipse() != nullptr){
+				else if (object->GetEllipse() != nullptr){
 					addPhysicsEllipse(object, compSprite);
+				}
+				else{
+					//must be a rectangle. 
+					addPhysicsRectangle(object, compSprite);
 				}
 			} 
 		}
@@ -367,6 +371,28 @@ void TmxMapSprite::addPhysicsEllipse(Tmx::Object* object, CompositeSprite* compS
 		nativePoint *= mMapPixelToMeterFactor;
 		compSprite->createCircleCollisionShape( (ellipseHeight > ellipseWidth ? ellipseHeight : ellipseWidth ) * mMapPixelToMeterFactor, nativePoint);
 
+
+}
+
+void TmxMapSprite::addPhysicsRectangle(Tmx::Object* object, CompositeSprite* compSprite){
+	auto mapParser = mMapAsset->getParser();
+	F32 tileWidth = mapParser->GetTileWidth();
+	F32 tileHeight =mapParser->GetTileHeight();
+	F32 mapHeight = (mapParser->GetHeight() * tileHeight);
+	Vector2 tileSize(tileWidth, tileHeight);
+	Tmx::MapOrientation orient = mapParser->GetOrientation();
+	b2Vec2 origin = b2Vec2(object->GetX(), object->GetY());
+
+
+		//weird additions and subtractions in this area due to the fact that this engine uses bottom->left as origin, and TMX uses top->right. 
+		//it's hacky, but it works.
+		Vector2 tilecoord = CoordToTile(Vector2( origin.x, mapHeight-(origin.y)),tileSize,orient == Tmx::TMX_MO_ISOMETRIC);
+		b2Vec2 nativePoint = tilecoord;
+		nativePoint += b2Vec2(-tileWidth/2,tileHeight/2);
+		nativePoint += b2Vec2(object->GetWidth()/2, -(object->GetHeight()/2)); //adjust for tmx defining from bottom left point while t2d defines from center...
+		nativePoint *= mMapPixelToMeterFactor;
+		compSprite->createPolygonBoxCollisionShape(object->GetWidth()*mMapPixelToMeterFactor, object->GetHeight()*mMapPixelToMeterFactor, nativePoint);
+		
 
 }
 

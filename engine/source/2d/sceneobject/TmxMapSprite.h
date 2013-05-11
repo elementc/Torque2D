@@ -59,6 +59,7 @@ private:
 	void addPhysicsPolyLine(Tmx::Object* object, CompositeSprite* compSprite);
 	void addPhysicsPolygon(Tmx::Object* object, CompositeSprite* compSprite);
 	void addPhysicsEllipse(Tmx::Object* object, CompositeSprite* compSprite);
+	void addPhysicsRectangle(Tmx::Object* object, CompositeSprite* compSprite);
 
 public:
 	inline bool setMap( const char* pMapAssetId ){ if (pMapAssetId == NULL) return false; mMapAsset = pMapAssetId; BuildMap(); return false;}
