@@ -379,12 +379,16 @@
    H4sIAAAAAAAAC+3VOwrCUBRF0TgBKwekg3QMOhlHoI0f8ItfFEwhbgtBkRfBKOcazoJdpAjvdDfLzMysjIt6wBv1mnqBRdCngXpEwpBGNKbJD99pfPDPlGY0pwUtafXNUSWtaUNb2tGeDtJFz450evg+Uy7aYmbV49v26n6vblL3KsptS92rCLet6F5FuW1NagneNbP/0FYPKNChrnpEMD31gIq7Ah5xH08AGQAA
   </data>
  </layer>
- <layer name="Collision" width="40" height="40">
-  <properties>
-   <property name="Render" value="false"/>
-  </properties>
-  <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3QsQ0AMAgDMPoE/5/aA9oBJAYGW8oWZUgEAAAAAADskOdNpTexSc/v1025fiPQSgAZAAA=
-  </data>
- </layer>
+ <objectgroup name="collision" width="40" height="40">
+  <object name="Rectangle1" x="412" y="1145" width="162" height="42"/>
+  <object name="Circle1" x="735" y="1149" width="128" height="39">
+   <ellipse/>
+  </object>
+  <object name="Poly1" x="831" y="668">
+   <polygon points="-32,-27 230,-28 229,-166 97,-275 21,-168 -36,-167"/>
+  </object>
+  <object name="Line1" x="3" y="1251">
+   <polyline points="0,0 237,-70 361,-164 694,-176 694,-3 1266,0 1250,-175 1317,-169 1402,-10"/>
+  </object>
+ </objectgroup>
 </map>

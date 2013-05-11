@@ -23,7 +23,7 @@ ConsoleMethod(TmxMapSprite, getTileProperty, const char*, 6, 6, "(layerName, pro
 	return object->getTileProperty(lName, pName, x, y);
 }
 
-/*
+
 ConsoleMethod(TmxMapSprite, WorldCoordToTile, const char*, 3,3,"Convert a world cooridnate into a local tile coordinate\n"
 	"@Return a tile coordinate as string (x y)")
 {
@@ -33,4 +33,3 @@ ConsoleMethod(TmxMapSprite, WorldCoordToTile, const char*, 3,3,"Convert a world 
 	auto tilePoint = object->CoordToTile(localPoint, object->getTileSize(), object->isIsoMap());
 	return tilePoint.scriptThis();
 }
-*/

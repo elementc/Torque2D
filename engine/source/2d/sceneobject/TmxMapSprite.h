@@ -45,17 +45,18 @@ private: //config
 private:
 
 	Vector<CompositeSprite*> mLayers;
+	Vector<SceneObject*> mObjects;
 
 	StringTableEntry  mLastTileAsset;
 	StringTableEntry  mLastTileImage;
 
 	void BuildMap();
 	void ClearMap();
-	Vector2 CoordToTile(Vector2& pos, Vector2& tileSize, bool isIso);
-	Vector2 TileToCoord(Vector2& pos, Vector2& tileSize, Vector2& offset, bool isIso);
 	CompositeSprite* CreateLayer(int layerIndex, bool isIso);
 	const char* getFileName(const char* path);
 	StringTableEntry GetTilesetAsset(const Tmx::Tileset* tileSet);
+	void addObjectAsSprite(const Tmx::Tileset* tileSet, Tmx::Object* object, Tmx::Map * mapParser, int gid, CompositeSprite* compSprite );
+	void addPhysicsPolyLine(Tmx::Object* object, CompositeSprite* compSprite);
 
 public:
 	inline bool setMap( const char* pMapAssetId ){ if (pMapAssetId == NULL) return false; mMapAsset = pMapAssetId; BuildMap(); return false;}
@@ -63,6 +64,10 @@ public:
 	inline bool setMapToMeterFactor( F32 factor ) {mMapPixelToMeterFactor = factor; BuildMap(); return false;}
 	inline F32 getMapToMeterFactor( void ) const {return mMapPixelToMeterFactor;}
 	const char* getTileProperty(StringTableEntry lName, StringTableEntry pName, int x,int y);
+	Vector2 CoordToTile(Vector2& pos, Vector2& tileSize, bool isIso);
+	Vector2 TileToCoord(Vector2& pos, Vector2& tileSize, Vector2& offset, bool isIso);
+	Vector2 getTileSize();
+	bool isIsoMap();
 
 protected:
 	static bool setMap(void* obj, const char* data)                       { return static_cast<TmxMapSprite*>(obj)->setMap(data);}

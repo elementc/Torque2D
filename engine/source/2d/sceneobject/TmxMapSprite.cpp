@@ -47,14 +47,20 @@ void TmxMapSprite::onRemove()
 	Parent::onRemove();
 }
 
-void TmxMapSprite::OnRegisterScene(Scene* scene)
+void TmxMapSprite::OnRegisterScene(Scene* pScene)
 {
-	Parent::OnRegisterScene(scene);
+	Parent::OnRegisterScene(pScene);
 
 	auto layerIdx = mLayers.begin();
 	for(layerIdx; layerIdx != mLayers.end(); ++layerIdx)
 	{
-		scene->addToScene(*layerIdx);
+
+		pScene->addToScene(*layerIdx);
+	}
+
+	auto objectsIdx = mObjects.begin();
+	for (objectsIdx; objectsIdx != mObjects.end(); ++objectsIdx){
+		pScene->addToScene(*objectsIdx);
 	}
 
 }
@@ -67,6 +73,10 @@ void TmxMapSprite::OnUnregisterScene( Scene* pScene )
 	for(layerIdx; layerIdx != mLayers.end(); ++layerIdx)
 	{
 		pScene->removeFromScene(*layerIdx);
+	}
+	auto objectsIdx = mObjects.begin();
+	for (objectsIdx; objectsIdx != mObjects.end(); ++objectsIdx){
+		pScene->removeFromScene(*objectsIdx);
 	}
 }
 
@@ -90,6 +100,12 @@ void TmxMapSprite::ClearMap()
 		delete sprite;
 	}
 	mLayers.clear();
+	auto objectsIdx = mObjects.begin();
+	for (objectsIdx; objectsIdx != mObjects.end(); ++objectsIdx){
+		SceneObject* object = *objectsIdx;
+		delete object;
+	}
+	mObjects.clear();
 }
 
 
@@ -125,6 +141,8 @@ void TmxMapSprite::BuildMap()
 		//default to layer 0, unless a property is added to the layer that overrides it.
 		int layerNumber = 0;
 		layerNumber = layer->GetProperties().GetNumericProperty(TMX_MAP_LAYER_ID_PROP);
+
+
 
 		auto compSprite = CreateLayer(layerNumber, orient == Tmx::TMX_MO_ISOMETRIC);
 
@@ -166,7 +184,7 @@ void TmxMapSprite::BuildMap()
 
 				compSprite->setSpriteFlipX(tile.flippedHorizontally);
 				compSprite->setSpriteFlipY(tile.flippedVertically);
-				compSprite->setBodyType(b2_staticBody);
+				
 
 			}
 		}
@@ -188,49 +206,101 @@ void TmxMapSprite::BuildMap()
 		{
 			auto object = *objectIdx;
 
+			
+			//do a number of things. First: try it as a tile
 			auto gid = object->GetGid();
-
 			auto tileSet = mapParser->FindTileset(gid);
-			if (tileSet == NULL) continue;
+			if (tileSet != NULL) 
+				addObjectAsSprite(tileSet, object, mapParser, gid, compSprite);
+			//is it a physics object?
+			if (object->GetType() == "collision" || groupLayer->GetName() == "collision"){
+				//it is!
+				//try to add some physics bodies...
 
-			StringTableEntry assetName = GetTilesetAsset(tileSet);
-			if (assetName == StringTable->EmptyString) continue;
-
-			F32 objectWidth = tileSet->GetTileWidth();
-			F32 objectHeight = tileSet->GetTileHeight();
-
-			F32 heightOffset =(objectHeight - tileHeight) / 2;
-			F32 widthOffset = (objectWidth - tileWidth) / 2;
-
-			Vector2 vTile = CoordToTile( Vector2(object->GetX(), object->GetY()),
-				tileSize,
-				orient == Tmx::TMX_MO_ISOMETRIC
-				);
-
-			vTile.sub(Vector2(1,1)); // objects need to be offset by 1 (not sure why right now).
-
-			Vector2 pos = TileToCoord( vTile,
-				tileSize,
-				originSize,
-				orient == Tmx::TMX_MO_ISOMETRIC
-				);
-			pos.add(Vector2(widthOffset, heightOffset));
-			pos *= mMapPixelToMeterFactor;
-
-			S32 frameNumber = gid - tileSet->GetFirstGid();
-
-			auto bId = compSprite->addSprite( SpriteBatchItem::LogicalPosition( pos.scriptThis()) );
-			compSprite->selectSpriteId(bId);
-			compSprite->setSpriteImage(assetName, frameNumber);
-			compSprite->setSpriteSize(Vector2( objectWidth * mMapPixelToMeterFactor, objectHeight * mMapPixelToMeterFactor));
-			compSprite->setSpriteFlipX(false);
-			compSprite->setSpriteFlipY(false);
-
-
+				if (object->GetPolyline() != nullptr){
+					addPhysicsPolyLine(object, compSprite);
+				}
+			} 
 		}
 	}
 }
 
+void TmxMapSprite::addObjectAsSprite(const Tmx::Tileset* tileSet, Tmx::Object* object, Tmx::Map * mapParser, int gid, CompositeSprite* compSprite ){
+
+	F32 tileWidth = mapParser->GetTileWidth();
+	F32 tileHeight = mapParser->GetTileHeight();
+	F32 objectWidth = tileSet->GetTileWidth();
+	F32 objectHeight = tileSet->GetTileHeight();
+	F32 heightOffset =(objectHeight - tileHeight) / 2;
+	F32 widthOffset = (objectWidth - tileWidth) / 2;
+	F32 halfTileHeight = tileHeight * 0.5;
+	F32 width = (mapParser->GetWidth() * tileWidth);
+	F32 height = (mapParser->GetHeight() * tileHeight);
+	Vector2 tileSize(tileWidth, tileHeight);
+	F32 originY = height / 2 - halfTileHeight;
+	F32 originX = 0;
+	Vector2 originSize(originX, originY);
+	Tmx::MapOrientation orient = mapParser->GetOrientation();
+
+	Vector2 vTile = CoordToTile( Vector2(object->GetX(), object->GetY()),
+		tileSize,
+		orient == Tmx::TMX_MO_ISOMETRIC
+		);
+
+	vTile.sub(Vector2(1,1)); // objects need to be offset by 1 (not sure why right now).
+
+	Vector2 pos = TileToCoord( vTile,
+		tileSize,
+		originSize,
+		orient == Tmx::TMX_MO_ISOMETRIC
+		);
+	pos.add(Vector2(widthOffset, heightOffset));
+	pos *= mMapPixelToMeterFactor;
+
+	S32 frameNumber = gid - tileSet->GetFirstGid();
+	StringTableEntry assetName = GetTilesetAsset(tileSet);
+
+	auto bId = compSprite->addSprite( SpriteBatchItem::LogicalPosition( pos.scriptThis()) );
+	compSprite->selectSpriteId(bId);
+	compSprite->setSpriteImage(assetName, frameNumber);
+	compSprite->setSpriteSize(Vector2( objectWidth * mMapPixelToMeterFactor, objectHeight * mMapPixelToMeterFactor));
+	compSprite->setSpriteFlipX(false);
+	compSprite->setSpriteFlipY(false);
+
+
+}
+
+void TmxMapSprite::addPhysicsPolyLine(Tmx::Object* object, CompositeSprite* compSprite){
+
+	auto mapParser = mMapAsset->getParser();
+	F32 tileWidth = mapParser->GetTileWidth();
+	F32 tileHeight =mapParser->GetTileHeight();
+	F32 height = (mapParser->GetHeight() * tileHeight);
+	Vector2 tileSize(tileWidth, tileHeight);
+	Tmx::MapOrientation orient = mapParser->GetOrientation();
+
+	const Tmx::Polyline* line = object->GetPolyline();
+	int points = line->GetNumPoints();
+	for (int i = 0; i < points-1; i++){
+
+		Tmx::Point first = line->GetPoint(i);
+		Tmx::Point second = line->GetPoint(i+1);
+		Vector2 lineOrigin = Vector2(object->GetX(), object->GetY());
+
+		//weird additions and subtractions in this area due to the fact that this engine uses bottom->left as origin, and TMX uses top->right. 
+		//it's hacky, but it works. 
+		Vector2 firstPoint = CoordToTile(Vector2( first.x + lineOrigin.x, height-(lineOrigin.y+first.y)),tileSize,orient == Tmx::TMX_MO_ISOMETRIC);
+		Vector2 secondPoint = CoordToTile(Vector2( second.x + lineOrigin.x, height-(lineOrigin.y+second.y)),tileSize,orient == Tmx::TMX_MO_ISOMETRIC);		
+		firstPoint += Vector2(-tileWidth/2,tileHeight/2);
+		secondPoint += Vector2(-tileWidth/2,tileHeight/2);
+
+		compSprite->createEdgeCollisionShape(firstPoint * mMapPixelToMeterFactor, secondPoint * mMapPixelToMeterFactor, false, false, Vector2(), Vector2());
+
+	}
+
+	
+
+}
 Vector2 TmxMapSprite::CoordToTile(Vector2& pos, Vector2& tileSize, bool isIso)
 {
 
@@ -282,6 +352,7 @@ CompositeSprite* TmxMapSprite::CreateLayer(int layerIndex, bool isIso)
 	compSprite->setSceneLayer(layerIndex);
 	compSprite->setBatchSortMode(SceneRenderQueue::RENDER_SORT_ZAXIS);
 	compSprite->setBatchIsolated(true);
+	compSprite->setBodyType(b2_staticBody);
 
 	return compSprite;
 }
@@ -375,4 +446,18 @@ const char* TmxMapSprite::getTileProperty(StringTableEntry lName, StringTableEnt
 	//return empty
 	return "";
 
+}
+
+Vector2 TmxMapSprite::getTileSize(){
+	Tmx::Map* mapParser = mMapAsset->getParser();
+	F32 tileWidth = mapParser->GetTileWidth();
+	F32 tileHeight =mapParser->GetTileHeight();
+	return Vector2(tileWidth, tileHeight);
+
+}
+
+bool TmxMapSprite::isIsoMap(){
+	Tmx::Map* mapParser = mMapAsset->getParser();
+	Tmx::MapOrientation orient = mapParser->GetOrientation();
+	return orient == Tmx::TMX_MO_ISOMETRIC;
 }
