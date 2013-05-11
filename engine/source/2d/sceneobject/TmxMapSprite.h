@@ -57,6 +57,7 @@ private:
 	StringTableEntry GetTilesetAsset(const Tmx::Tileset* tileSet);
 	void addObjectAsSprite(const Tmx::Tileset* tileSet, Tmx::Object* object, Tmx::Map * mapParser, int gid, CompositeSprite* compSprite );
 	void addPhysicsPolyLine(Tmx::Object* object, CompositeSprite* compSprite);
+	void addPhysicsPolygon(Tmx::Object* object, CompositeSprite* compSprite);
 
 public:
 	inline bool setMap( const char* pMapAssetId ){ if (pMapAssetId == NULL) return false; mMapAsset = pMapAssetId; BuildMap(); return false;}

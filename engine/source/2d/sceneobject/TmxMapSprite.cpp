@@ -220,6 +220,9 @@ void TmxMapSprite::BuildMap()
 				if (object->GetPolyline() != nullptr){
 					addPhysicsPolyLine(object, compSprite);
 				}
+				if (object->GetPolygon() != nullptr){
+					addPhysicsPolygon(object, compSprite);
+				}
 			} 
 		}
 	}
@@ -301,6 +304,37 @@ void TmxMapSprite::addPhysicsPolyLine(Tmx::Object* object, CompositeSprite* comp
 	
 
 }
+
+void TmxMapSprite::addPhysicsPolygon(Tmx::Object* object, CompositeSprite* compSprite){
+	auto mapParser = mMapAsset->getParser();
+	F32 tileWidth = mapParser->GetTileWidth();
+	F32 tileHeight =mapParser->GetTileHeight();
+	F32 height = (mapParser->GetHeight() * tileHeight);
+	Vector2 tileSize(tileWidth, tileHeight);
+	Tmx::MapOrientation orient = mapParser->GetOrientation();
+	const Tmx::Polygon* line = object->GetPolygon();
+	int points = line->GetNumPoints();
+	b2Vec2* pointsdata = new b2Vec2[points];
+	b2Vec2 origin = b2Vec2(object->GetX(), object->GetY());
+	for (int i = 0; i < points; i++){
+
+		Tmx::Point tmxPoint = line->GetPoint(i);
+
+		//weird additions and subtractions in this area due to the fact that this engine uses bottom->left as origin, and TMX uses top->right. 
+		//it's hacky, but it works.
+		Vector2 tilecoord = CoordToTile(Vector2( tmxPoint.x + origin.x, height-(origin.y+tmxPoint.y)),tileSize,orient == Tmx::TMX_MO_ISOMETRIC);
+		b2Vec2 nativePoint = tilecoord;
+		nativePoint += b2Vec2(-tileWidth/2,tileHeight/2);
+		nativePoint *= mMapPixelToMeterFactor;
+		pointsdata[i] = nativePoint;	
+
+	}
+		compSprite->createPolygonCollisionShape(points, pointsdata);
+		delete[] pointsdata;
+
+
+}
+
 Vector2 TmxMapSprite::CoordToTile(Vector2& pos, Vector2& tileSize, bool isIso)
 {
 
