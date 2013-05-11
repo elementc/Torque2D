@@ -223,6 +223,9 @@ void TmxMapSprite::BuildMap()
 				if (object->GetPolygon() != nullptr){
 					addPhysicsPolygon(object, compSprite);
 				}
+				if (object->GetEllipse() != nullptr){
+					addPhysicsEllipse(object, compSprite);
+				}
 			} 
 		}
 	}
@@ -331,6 +334,38 @@ void TmxMapSprite::addPhysicsPolygon(Tmx::Object* object, CompositeSprite* compS
 	}
 		compSprite->createPolygonCollisionShape(points, pointsdata);
 		delete[] pointsdata;
+
+
+}
+
+void TmxMapSprite::addPhysicsEllipse(Tmx::Object* object, CompositeSprite* compSprite){
+	auto mapParser = mMapAsset->getParser();
+	F32 tileWidth = mapParser->GetTileWidth();
+	F32 tileHeight =mapParser->GetTileHeight();
+	F32 mapHeight = (mapParser->GetHeight() * tileHeight);
+	Vector2 tileSize(tileWidth, tileHeight);
+	Tmx::MapOrientation orient = mapParser->GetOrientation();
+	const Tmx::Ellipse* ellipse = object->GetEllipse();
+	b2Vec2 origin = b2Vec2(ellipse->GetCenterX(), ellipse->GetCenterY());
+
+	F32 ellipseHeight = ellipse->GetRadiusY();
+	F32 ellipseWidth = ellipse->GetRadiusX();
+
+	//tmx allows arbitrary ellipses, t2d only lets us use circles. approximate ellipses with a height:width ratio of 1/2 - 2with a circle, otherwise fail.
+	F32 ratio = ellipseHeight/ellipseWidth;
+	if (ratio < 0.5f || ratio > 2.0f){
+		Con::warnf("TMX map has an ellipse collision body with H:W ratio outside of our approximatable bounds. Use a different shape.");
+		return;
+	}
+
+
+		//weird additions and subtractions in this area due to the fact that this engine uses bottom->left as origin, and TMX uses top->right. 
+		//it's hacky, but it works.
+		Vector2 tilecoord = CoordToTile(Vector2( origin.x, mapHeight-(origin.y)),tileSize,orient == Tmx::TMX_MO_ISOMETRIC);
+		b2Vec2 nativePoint = tilecoord;
+		nativePoint += b2Vec2(-tileWidth/2,tileHeight/2);
+		nativePoint *= mMapPixelToMeterFactor;
+		compSprite->createCircleCollisionShape( (ellipseHeight > ellipseWidth ? ellipseHeight : ellipseWidth ) * mMapPixelToMeterFactor, nativePoint);
 
 
 }

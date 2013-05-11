@@ -387,23 +387,32 @@
   <object name="Line1" x="3" y="1251">
    <polyline points="0,0 237,-70 361,-164 694,-176 694,-3 1266,0 1250,-175 1317,-169 1402,-10"/>
   </object>
-  <object x="442" y="436">
+  <object name="Poly1" x="442" y="436">
    <polygon points="0,0 205,0 205,82 0,81"/>
   </object>
-  <object x="449" y="519">
+  <object name="Poly2" x="449" y="519">
    <polygon points="0,0 192,2 191,57 -1,56"/>
   </object>
-  <object x="513" y="579">
+  <object name="Poly3" x="513" y="579">
    <polygon points="0,0 1,30 94,29 95,-2"/>
   </object>
-  <object x="854" y="455">
+  <object name="Poly4" x="854" y="455">
    <polygon points="0,0 73,-70 145,-1 145,74 0,72"/>
   </object>
-  <object x="795" y="499">
+  <object name="Poly5" x="795" y="499">
    <polygon points="0,0 270,1 269,82 0,78"/>
   </object>
-  <object x="801" y="582">
+  <object name="Poly6" x="801" y="582">
    <polygon points="0,0 254,2 257,59 -2,56"/>
+  </object>
+  <object x="903" y="1036" width="54" height="52">
+   <ellipse/>
+  </object>
+  <object x="745" y="1040" width="68" height="62">
+   <ellipse/>
+  </object>
+  <object x="231" y="1003" width="61" height="58">
+   <ellipse/>
   </object>
  </objectgroup>
 </map>
