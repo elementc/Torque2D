@@ -2679,7 +2679,6 @@
     <ClInclude Include="..\..\source\2d\core\ImageFrameProviderCore.h">
       <Filter>2d\core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\lib\TmxParser\Tmx.h" />
     <ClInclude Include="..\..\source\2d\assets\TmxMapAsset.h">
       <Filter>2d\assets</Filter>
     </ClInclude>
@@ -2709,10 +2708,5 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Torque 2D.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
-    <None Include="ClassDiagram1.cd" />
-    <None Include="ClassDiagram2.cd" />
   </ItemGroup>
 </Project>

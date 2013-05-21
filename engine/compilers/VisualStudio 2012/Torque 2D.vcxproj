@@ -618,7 +618,6 @@
     <ClCompile Include="..\..\source\testing\unitTesting.cc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\lib\TmxParser\Tmx.h" />
     <ClInclude Include="..\..\source\2d\assets\AnimationAsset.h" />
     <ClInclude Include="..\..\source\2d\assets\AnimationAsset_ScriptBinding.h" />
     <ClInclude Include="..\..\source\2d\assets\ImageAsset.h" />
@@ -1135,11 +1134,6 @@
       <Project>{86cb2525-0cf3-40d3-bf42-a0a95035ee8c}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
-    <None Include="ClassDiagram1.cd" />
-    <None Include="ClassDiagram2.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
