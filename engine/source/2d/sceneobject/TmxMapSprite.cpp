@@ -107,8 +107,6 @@ void TmxMapSprite::ClearMap()
 	}
 	mObjects.clear();
 }
-
-
 void TmxMapSprite::BuildMap()
 {
 	// Debug Profiling.
@@ -579,4 +577,22 @@ bool TmxMapSprite::isIsoMap(){
 	Tmx::Map* mapParser = mMapAsset->getParser();
 	Tmx::MapOrientation orient = mapParser->GetOrientation();
 	return orient == Tmx::TMX_MO_ISOMETRIC;
+}
+
+void TmxMapSprite::setBodyType(const b2BodyType type){
+	Parent::setBodyType(type);
+
+	auto layerIdx = mLayers.begin();
+	for(layerIdx; layerIdx != mLayers.end(); ++layerIdx)
+	{
+
+		(*layerIdx)->setBodyType(type);
+	}
+
+	auto objectsIdx = mObjects.begin();
+	for (objectsIdx; objectsIdx != mObjects.end(); ++objectsIdx){
+		(*objectsIdx)->setBodyType(type);
+	}
+
+
 }
