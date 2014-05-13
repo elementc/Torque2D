@@ -36,7 +36,7 @@
 #endif
 
 #ifndef B2_MATH_H
-#include "box2d/Common/b2Math.h"
+#include "Box2D/Common/b2Math.h"
 #endif
 
 #ifndef _COLOR_H_
@@ -65,6 +65,8 @@ typedef Vector<TamlCustomField*> TamlCustomFieldVector;
 
 //-----------------------------------------------------------------------------
 
+/// @ingroup tamlGroup
+/// @see tamlGroup
 class TamlCustomField : public IFactoryObjectReset
 {
 public:
@@ -278,6 +280,8 @@ private:
 
 //-----------------------------------------------------------------------------
 
+/// @ingroup tamlGroup
+/// @see tamlGroup
 class TamlCustomNode : public IFactoryObjectReset
 {
 public:
@@ -599,6 +603,8 @@ private:
 
 //-----------------------------------------------------------------------------
 
+/// @ingroup tamlGroup
+/// @see tamlGroup
 class TamlCustomNodes : public IFactoryObjectReset
 {
 public:
