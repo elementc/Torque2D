@@ -75,7 +75,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../../Lib/LeapSDK/include;../../Lib/zlib;../../Lib/lpng;../../Lib/ljpeg;../../Lib/openal/win32;../../source;../../source/persistence/rapidjson/include;../../source/persistence/libjson;../../source/testing/googleTest;../../source/testing/googleTest/include;../../source/spine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../Lib/LeapSDK/include;../../Lib/zlib;../../Lib/lpng;../../Lib/TmxParser;../../Lib/ljpeg;../../Lib/openal/win32;../../Source;../../Source/persistence/rapidjson/include;../../Source/persistence/libjson;../../source/testing/googleTest;../../source/testing/googleTest/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>TORQUE_DEBUG;TORQUE_DEBUG_GUARD;_CRT_SECURE_NO_DEPRECATE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -124,7 +124,7 @@
     <ClCompile>
       <Optimization>MinSpace</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>../../Lib/LeapSDK/include;../../Lib/zlib;../../Lib/lpng;../../Lib/ljpeg;../../Lib/openal/win32;../../source;../../source/persistence/rapidjson/include;../../source/persistence/libjson;../../source/testing/googleTest;../../source/testing/googleTest/include;../../source/spine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../Lib/LeapSDK/include;../../Lib/zlib;../../Lib/lpng;../../Lib/TmxParser;../../Lib/ljpeg;../../Lib/openal/win32;../../Source;../../Source/persistence/rapidjson/include;../../Source/persistence/libjson;../../source/testing/googleTest;../../source/testing/googleTest/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>UNICODE;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -184,7 +184,7 @@
     <ClCompile>
       <Optimization>MinSpace</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>../../Lib/LeapSDK/include;../../Lib/zlib;../../Lib/lpng;../../Lib/ljpeg;../../Lib/openal/win32;../../Source;../../Source/persistence/rapidjson/include;../../Source/persistence/libjson;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../Lib/LeapSDK/include;../../Lib/zlib;../../Lib/lpng;../../Lib/TmxParser;../../Lib/ljpeg;../../Lib/openal/win32;../../Source;../../Source/persistence/rapidjson/include;../../Source/persistence/libjson;../../source/testing/googleTest;../../source/testing/googleTest/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>TORQUE_SHIPPING;UNICODE;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -246,6 +246,7 @@
     <ClCompile Include="..\..\source\2d\assets\ParticleAssetField.cc" />
     <ClCompile Include="..\..\source\2d\assets\ParticleAssetFieldCollection.cc" />
     <ClCompile Include="..\..\source\2d\assets\SkeletonAsset.cc" />
+    <ClCompile Include="..\..\source\2d\assets\TmxMapAsset.cc" />
     <ClCompile Include="..\..\source\2d\controllers\AmbientForceController.cc" />
     <ClCompile Include="..\..\source\2d\controllers\core\GroupedSceneController.cc" />
     <ClCompile Include="..\..\source\2d\controllers\core\PickingSceneController.cc" />
@@ -278,6 +279,7 @@
     <ClCompile Include="..\..\source\2d\sceneobject\ShapeVector.cc" />
     <ClCompile Include="..\..\source\2d\sceneobject\SkeletonObject.cc" />
     <ClCompile Include="..\..\source\2d\sceneobject\Sprite.cc" />
+    <ClCompile Include="..\..\source\2d\sceneobject\TmxMapSprite.cpp" />
     <ClCompile Include="..\..\source\2d\sceneobject\Trigger.cc" />
     <ClCompile Include="..\..\source\2d\scene\ContactFilter.cc" />
     <ClCompile Include="..\..\source\2d\scene\DebugDraw.cc" />
@@ -661,6 +663,8 @@
     <ClInclude Include="..\..\source\2d\assets\ParticleAsset_ScriptBinding.h" />
     <ClInclude Include="..\..\source\2d\assets\SkeletonAsset.h" />
     <ClInclude Include="..\..\source\2d\assets\SkeletonAsset_ScriptBinding.h" />
+    <ClInclude Include="..\..\source\2d\assets\TmxMapAsset.h" />
+    <ClInclude Include="..\..\source\2d\assets\TmxMapAsset_ScriptBinding.h" />
     <ClInclude Include="..\..\source\2d\controllers\AmbientForceController.h" />
     <ClInclude Include="..\..\source\2d\controllers\AmbientForceController_ScriptBinding.h" />
     <ClInclude Include="..\..\source\2d\controllers\core\GroupedSceneController.h" />
@@ -719,6 +723,8 @@
     <ClInclude Include="..\..\source\2d\sceneobject\SkeletonObject_ScriptBinding.h" />
     <ClInclude Include="..\..\source\2d\sceneobject\Sprite.h" />
     <ClInclude Include="..\..\source\2d\sceneobject\Sprite_ScriptBinding.h" />
+    <ClInclude Include="..\..\source\2d\sceneobject\TmxMapSprite.h" />
+    <ClInclude Include="..\..\source\2d\sceneobject\TmxMapSprite_ScriptBinding.h" />
     <ClInclude Include="..\..\source\2d\sceneobject\Trigger.h" />
     <ClInclude Include="..\..\source\2d\sceneobject\Trigger_ScriptBinding.h" />
     <ClInclude Include="..\..\source\2d\scene\ContactFilter.h" />
@@ -1270,6 +1276,9 @@
     <ProjectReference Include="lpng.vcxproj">
       <Project>{af1179e3-a838-46a3-a427-1e62aa4c52f4}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="TmxParser.vcxproj">
+      <Project>{798fc53d-6da5-4634-8c4e-1ca2368f27ea}</Project>
     </ProjectReference>
     <ProjectReference Include="zlib.vcxproj">
       <Project>{86cb2525-0cf3-40d3-bf42-a0a95035ee8c}</Project>

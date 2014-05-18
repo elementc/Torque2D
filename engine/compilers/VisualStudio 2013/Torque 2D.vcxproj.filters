@@ -1425,6 +1425,12 @@
     <ClCompile Include="..\..\source\2d\sceneobject\SkeletonObject.cc">
       <Filter>2d\sceneobject</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\2d\assets\TmxMapAsset.cc">
+      <Filter>2d\assets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\2d\sceneobject\TmxMapSprite.cpp">
+      <Filter>2d\sceneobject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\audio\audio.h">
@@ -3157,6 +3163,18 @@
       <Filter>2d\sceneobject</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\2d\sceneobject\SkeletonObject.h">
+      <Filter>2d\sceneobject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\2d\assets\TmxMapAsset.h">
+      <Filter>2d\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\2d\assets\TmxMapAsset_ScriptBinding.h">
+      <Filter>2d\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\2d\sceneobject\TmxMapSprite.h">
+      <Filter>2d\sceneobject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\2d\sceneobject\TmxMapSprite_ScriptBinding.h">
       <Filter>2d\sceneobject</Filter>
     </ClInclude>
   </ItemGroup>
