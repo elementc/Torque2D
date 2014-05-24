@@ -167,7 +167,7 @@ void TmxMapSprite::BuildMap()
 				F32 widthOffset = (spriteWidth - tileWidth) / 2;
 
 
-				Vector2 pos = TileToCoord( 
+				/*Vector2 pos = TileToCoord( 
 					Vector2
 						(
 							static_cast<const F32>(x),
@@ -179,11 +179,11 @@ void TmxMapSprite::BuildMap()
 					);
 				pos.add(Vector2(widthOffset, heightOffset));
 				pos *= mMapPixelToMeterFactor;
-
-				auto bId = compSprite->addSprite( SpriteBatchItem::LogicalPosition( pos.scriptThis()) );
+				*/
+				auto bId = compSprite->addSprite( SpriteBatchItem::LogicalPosition( Vector2(x,yTiles-y).scriptThis()) );
 				compSprite->selectSpriteId(bId);
 				compSprite->setSpriteImage(assetName, localFrame);
-				compSprite->setSpriteSize( Vector2( spriteWidth * mMapPixelToMeterFactor, spriteHeight * mMapPixelToMeterFactor ) );
+				//compSprite->setSpriteSize( Vector2( spriteWidth * mMapPixelToMeterFactor, spriteHeight * mMapPixelToMeterFactor ) );
 
 				compSprite->setSpriteFlipX(tile.flippedHorizontally);
 				compSprite->setSpriteFlipY(tile.flippedVertically);
@@ -463,8 +463,18 @@ CompositeSprite* TmxMapSprite::CreateLayer(int layerIndex, bool isIso)
 	if (scene)
 		scene->addToScene(compSprite);
 
+	if (isIso)
+		compSprite->setBatchLayout( CompositeSprite::ISOMETRIC_LAYOUT );
+	else
+		compSprite->setBatchLayout(CompositeSprite::RECTILINEAR_LAYOUT);
 
-	compSprite->setBatchLayout( CompositeSprite::NO_LAYOUT );
+	auto mapParser = mMapAsset->getParser();
+	F32 tileWidth = static_cast<F32>(mapParser->GetTileWidth());
+	F32 tileHeight = static_cast<F32>(mapParser->GetTileHeight());
+	compSprite->setDefaultSpriteSize(Vector2(tileWidth, tileHeight) * mMapPixelToMeterFactor);
+	compSprite->setDefaultSpriteStride(Vector2(tileWidth, tileHeight) * mMapPixelToMeterFactor);
+
+
 	compSprite->setPosition(getPosition());
 	compSprite->setSceneLayer(layerIndex);
 	compSprite->setBatchSortMode(SceneRenderQueue::RENDER_SORT_ZAXIS);

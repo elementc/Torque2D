@@ -1,10 +1,10 @@
-ConsoleMethod(TmxMapSprite, getMapToMeterFactor, F32, 2, 2, "() Returns the factor used to translate map pixels into scene meters\n"
+ConsoleMethodWithDocs(TmxMapSprite, getMapToMeterFactor, F32, 2, 2, "() Returns the factor used to translate map pixels into scene meters\n"
 	"")
 {
 	return object->getMapToMeterFactor();
 }
 
-ConsoleMethod(TmxMapSprite, setMapToMeterFactor, void, 3, 3, "(factor) Sets the factor used to translate map pixels into scene meters\n"
+ConsoleMethodWithDocs(TmxMapSprite, setMapToMeterFactor, void, 3, 3, "(factor) Sets the factor used to translate map pixels into scene meters\n"
 	"")
 {
 	F32 factor = dAtof(argv[2]);
@@ -12,7 +12,7 @@ ConsoleMethod(TmxMapSprite, setMapToMeterFactor, void, 3, 3, "(factor) Sets the 
 }
 
 
-ConsoleMethod(TmxMapSprite, getTileProperty, const char*, 6, 6, "(layerName, propertyName, x, y) Gets a property value for the specific x/y coord on the given layer.\n"
+ConsoleMethodWithDocs(TmxMapSprite, getTileProperty, const char*, 6, 6, "(layerName, propertyName, x, y) Gets a property value for the specific x/y coord on the given layer.\n"
 	"The property value or blank if one can not be found.")
 {
 	StringTableEntry lName = StringTable->insert(argv[2]);
@@ -24,7 +24,7 @@ ConsoleMethod(TmxMapSprite, getTileProperty, const char*, 6, 6, "(layerName, pro
 }
 
 
-ConsoleMethod(TmxMapSprite, WorldCoordToTile, const char*, 3,3,"Convert a world cooridnate into a local tile coordinate\n"
+ConsoleMethodWithDocs(TmxMapSprite, WorldCoordToTile, const char*, 3,3,"Convert a world cooridnate into a local tile coordinate\n"
 	"@Return a tile coordinate as string (x y)")
 {
 	Vector2 worldPoint(argv[2]);
@@ -34,7 +34,8 @@ ConsoleMethod(TmxMapSprite, WorldCoordToTile, const char*, 3,3,"Convert a world 
 	return tilePoint.scriptThis();
 }
 
-ConsoleMethod(TmxMapSprite, setMap, void, 3,3,"Set the map this MapSprite is to load.")
+ConsoleMethodWithDocs(TmxMapSprite, setMap, void, 3,3,"Set the map this MapSprite is to load.")
 {
 	object ->setMap(argv[2]);
 }
+
