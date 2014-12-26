@@ -12,6 +12,9 @@
 
 #define TMX_MAP_TILESET_ASSETNAME_PROP "AssetName"
 #define TMX_MAP_LAYER_ID_PROP "LayerId"
+#define TMX_MAP_COLLISION_OBJECT "Collision"
+#define TMX_MAP_SCRIPT_OBJECT "Script"
+#define TMX_MAP_SCRIPT_FUNCTION "Function"
 
 class TmxMapSprite : public SceneObject
 {
@@ -69,6 +72,7 @@ public:
 	const char* getTileProperty(StringTableEntry lName, StringTableEntry pName, U32 x,U32 y);
 	Vector2 CoordToTile(Vector2& pos, Vector2& tileSize, bool isIso);
 	Vector2 TileToCoord(Vector2& pos, Vector2& tileSize, Vector2& offset, bool isIso);
+	Vector2 PixelToCoord(Vector2& pixPos);
 	Vector2 getTileSize();
 	bool isIsoMap();
 	void setBodyType(const b2BodyType type);
