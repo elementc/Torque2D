@@ -136,9 +136,10 @@ void TmxMapSprite::BuildMap()
 	{
 		Tmx::Layer* layer = *layerItr;
 
-		//default to layer 0, unless a property is added to the layer that overrides it.
-		S32 layerNumber = 0;
-		layerNumber = layer->GetProperties().GetNumericProperty(TMX_MAP_LAYER_ID_PROP);
+		//use default layer number, unless someone realy wants to override it.
+		S32 layerNumber = 31 - layer->GetZOrder();
+		if (layer->GetProperties().HasProperty(TMX_MAP_LAYER_ID_PROP))
+			layerNumber = layer->GetProperties().GetNumericProperty(TMX_MAP_LAYER_ID_PROP);
 
 
 
@@ -195,13 +196,16 @@ void TmxMapSprite::BuildMap()
 	}
 
 	auto groupIdx = mapParser->GetObjectGroups().begin();
+
 	for(groupIdx; groupIdx != mapParser->GetObjectGroups().end(); ++groupIdx)
 	{
 		auto groupLayer = *groupIdx;
 
-		//default to layer 0, unless a property is added to the layer that overrides it.
-		U32 layerNumber = 0;
-		layerNumber = groupLayer->GetProperties().GetNumericProperty(TMX_MAP_LAYER_ID_PROP);
+		//use default layer number, unless someone realy wants to override it.
+		S32 layerNumber = 31 - groupLayer->GetZOrder();
+		if (groupLayer->GetProperties().HasProperty(TMX_MAP_LAYER_ID_PROP))
+			layerNumber = groupLayer->GetProperties().GetNumericProperty(TMX_MAP_LAYER_ID_PROP);
+
 		auto compSprite = CreateLayer(layerNumber, orient == Tmx::TMX_MO_ISOMETRIC);
 
 		auto objectIdx = groupLayer->GetObjects().begin();

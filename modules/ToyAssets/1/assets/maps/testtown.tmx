@@ -361,17 +361,20 @@
  </tileset>
  <layer name="Floor" width="40" height="40">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3VYQ7CIAwFYK5qdgXjbTwCR2FnUhNIXl7aDQwFsvXHCxGRfessSyGE/Zu0wKhltst97lthHOV7Q+7u2xv29/q5b5TvKOg7W4v/7zv5ap+vZpHOBUvfUf14zQgf5gFhn/Q7bc7KxzVYwYd7R5qTfBuMKY8bzFvWL9L3K9SPfVp/YE35mtjfPX2RDPxZOl+kXub69vSVaC4+X7h+ODfaV+PmWPmK5R8T3k/v/jgbpetKZ2UU1vXytTw3rvlMn1S/Wb7y3q3xlffFKN9v32cO9ojme+XMfr4x1PWltU8bW2Jx/rnPfVfx1cR91/V9AG2DHMUAGQAA
+   H4sIAAAAAAAAC+3VYQ7CIAwFYK5qdgXjbTwCR4EzqclIXl7aDQwFdP3xQkRk3zrLUgghv5MWGLXMdrnPfSuMo3xPyNV9uWF/r5/7RvmOgr6ztfj/vpKv9vlqFulcsPQd1Y/XjPBhbhD2Sb/T5qx8XIMVfLh3pDnJt8GY9nGDecv6Rfp+hfqxT+sPrClfE/u7py+SgT9L54vUy1zfnr4SzcXnC9cP50b7atwcK1+xfGPC++ndH2ejdF3prIzCul6+lufGNZ/pk+o3y1feuzW+8r4Y5fvse9+DPaL5HntmP98Y6vrS2qeNLbE4/9znvn/x1cR9v+/LSl6AqcfwABkAAA==
   </data>
  </layer>
+ <objectgroup name="scriptObject" width="40" height="40">
+  <object name="function" type="Player" gid="189" x="6" y="1271"/>
+ </objectgroup>
  <layer name="Fringe" width="40" height="40">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+1YS04CQRBt9n73ingE4xWMiScwLskkhBiXhAOwdkHceAXXhK1n8SKCdpN58KamqqebgRW8UJme6d+rT1d349wRRxwQOv7X2e8USy9/2rsyt2x74esvO/XvrSDmPfPlc+UdczNQ9+vLCy89X77t1MdoA6lz15dvaGy8Y24G6k68nCp92tgRfaXOmj/Neco2V16ulb5t7Cj7QmfNn9Y8aGP17bawoeUDzZ/S54D0udaXdUvlyu3Q/9WX3xKE0dR2KnSrxZAB1gn9Zwl65WIi3mUcWFjrRGsA/GJ2nIpxUmy+6iNymBUvAWxbXgPgF7Pj3G1sMmloy31y8jbbluN4ZszZE3MxuO04ws/MYQqsdcv263v5KZ+B32eEH3gVJMwtiMz9KXlR6sL8RiT3VNb4FREBPzlXLP7WEDle8++Xl6fyCXto/LoKt/Dtu+yTajdtbcj8krs+gn/vyicLvs3JFk37srY2pH+HbpMbBuLbwFUxLL/Bxh+lwO7QSZ59LDuy38GL/bsP8PrNiT/warN/8P7Adn832qSsW0uHfdpvG7utQPtO0DPlTMBo3NdcNb8AKfk5QNvftkGhlOf0lOs2Nc8gbhcKv76QJn5y/5iLp3P1mLfA/HF3WPEjf++SX9a+4arnK9wdAj/2d+D04OUxgWtBbTV+ufcQ6CPjj88zYb999vLiqvvxSBlvTG1xXtDiLxXQJxZ/baHFX+r9A/qEtog/zq+7EOyFHH+p9w9HbRF/2l03lrfwnwGD67X4yzn/WXmQdYzlLf7PQKuPxV9qPMo8aJ1xtbwFu2v1S6fHXy40DpqOTfrK+jDWLvjlcNh23CMOF//ug7reABkAAA==
+   H4sIAAAAAAAAC+1YS07DMBB19nz3UMoREFdASJwAsawqVRViWfUAXbOo2HAF1lW3nIWL0IJd5bUvkxnHbtoN9KmjOPE4fvPx2KlzBxzwj1D4X7HfKZZefrR7ZW6pe+b7z4v681YQ85749qlyj7kZ6Pv27YWXrm9fF/V3tIG0uePbV/Ru3GNuBvqOvBwrY9r4EWOlzVo8zXlKnQsvl8rYNn6UY2GzFk9rHuhYYzstfGjFQIunjDkgY66NZdtSubIexj/79kuCMJp0p8K2Wg4ZYJswfpZgVy4m4l7mgYW1TbQGwC/mx6l4T4rPV2NEDbPyJYB9y2sA/GJ+nLuNTyYNujwmp26zbzmPZ8acXTEXg3XHEX5mDVNgrVv2X8/LV3kN/N4j/MCrT8Lcgsjan1IXpS3Mb0RyS22NXz8i4CfniuXfGqLGa/H98PJQXuEPjV9H4RaefZZjUv2mrQ1ZX3LXR4jvTXllwbM5+aJpX9bWhozv0G1qw0A8G7gqhuUz+PitFPgdNsmzj+VHjjt4cXz3AV6/OfkHXm32D94f2O+vhk7KurVs2Kf/tvHbCrTvBDtTzgSMxn3NVesLkFKfA7T9bRv0lfacrnLdptYZ5O1C4dcT0sRP7h9zcXWunvMWmD++HVb8KN675Je1b7jq+QrfDoEfxztwuvNyn8C1T7oav9zvENgj84/PM2G/ffTy5Kr78Uh535h0cV7Q8i8VsCeWf22h5V/q9wfsCbrIP66vuxDshZx/qd8fjnSRf9q3bqxu4T8DBvdr+Zdz/rPqINsYq1v8n4HWH8u/1HyUddA642p1C37X+pdOz79caBw0G5vslf3hXbvgp3FI3X9jOrn15IC/iV+IPSbpABkAAA==
   </data>
  </layer>
  <layer name="Over" width="40" height="40">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+2Y2UoDMRSGzyiigsuNStF6Jbgg6p1IK1J9DCmI9N7lIXyEPp3euICiuIEKQq3+wQyJMdOJMlkG8sFHpu1hcnIy09MpUSQSiYRLB37kxHThp4NcdIwkRKNJ75gxfD6eE2OLKuad9TS3bZq+E+jBATyER47nbSqj67nZpdYH++EAdxAOwWESNXFdG3k/JuEUrHCn4Qys5pyjxbXJAlyES3CZuwJX4ZoSK9e6pSjXvCjY/tZgHW7CLW4DbsMdJX6CRK0ZL/Ce52dac1N091tbGdM1pKNca5WsmtskXYO8lrTWezxml48N0tfcF+2MY5+YfAf66iEm/aHIHlLGXnkKz9ynY8Q5vICX8MpzLirX8Abuc+9I9GKmrifY6m0dzXsP8BE+wWd4S6IXM4vqCf/lFb5Jr99J9GKmy56QZPx2P5aO1+EGnKPvfsyoZZzvpKjESoLu+guBrmGMr+faH5T0+TGI2nFM9vsvhLQ2Hbb+75hPfmsSF3GPbq9C8gsXnYqxABkAAA==
+   H4sIAAAAAAAAC+2Yy0oDMRSGzyiigpeNStG6cqEi6k6kFqmufAYpiHTv5SF8hD6dbryAongpqCDU6h/MkBgynSiTy0A++Mi0PUxOTmZ6OiWKRCKRcOnCz5yYHvxykIuOsYRoPOkfM4HPJ3NibFHFvPOe5rZN03cCfTiCx/DE8bxNZXQ9N7vUBuAgHOIOwxE4SqImrmsj78c0nIEV7iycg9Wcc7S4NlmES3AZrnBX4RpcV2LlWrcU5ZoXBdvfGtyCdbjNbcAduKvET5GoNeMVPvL8TGtuiu5+aytjuoZ0lGutklVzm6RrkNeS1vqAx+zzsUH6mvuinXHsE5PvQF89xKQ/FNlDytgrz+GF+3SMuIRX8BreeM5F5RbewUPuA4lezNT1BFu9rat57wk+wxfYgfckejGzqJ7wX97gu/T6g0QvZrrsCUnGb/dT6XgDbsIF+unHjFrG+c6KSqwk6K6/EOgZxvh6rv1FSZ8fg6gdx2S//0JIa9Nh6/+OPY0mcRH36PYqJL8BZBBzwgAZAAA=
   </data>
  </layer>
  <layer name="Hip roof" width="40" height="40">
@@ -383,9 +386,6 @@
   <object name="Rectangle1" x="412" y="1145" width="162" height="42"/>
   <object name="Circle1" x="735" y="1149" width="128" height="39">
    <ellipse/>
-  </object>
-  <object name="Line1" x="3" y="1251">
-   <polyline points="0,0 237,-70 361,-164 694,-176 694,-3 1266,0 1250,-175 1317,-169 1402,-10"/>
   </object>
   <object name="Poly1" x="442" y="436">
    <polygon points="0,0 205,0 205,82 0,81"/>
@@ -422,6 +422,8 @@
   <object x="821" y="803" width="147" height="73"/>
   <object x="832" y="881" width="128" height="75"/>
   <object x="847" y="782" width="92" height="18"/>
-  <object x="873" y="757" width="51" height="24"/>
+  <object x="1" y="1275">
+   <polyline points="0,0 1,-1272 1278,-1267 1272,2 0,2"/>
+  </object>
  </objectgroup>
 </map>

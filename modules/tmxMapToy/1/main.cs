@@ -34,13 +34,18 @@ function TmxMapToy::reset( %this )
     };    
     SandboxScene.add( %mapSprite );
     
-    //add a simple dynamic sprite to collide with the tiles
+    
+     
+}
+
+function Player(%pos, %layer){
+//add a simple dynamic sprite to collide with the tiles
     %db = new Sprite(TestAnimation)
     {
         Animation = "ToyAssets:TD_Knight_MoveWest";
-        position = "2 0";
+        position = %pos;
         size = "1.5 1.5";
-        SceneLayer = "14";
+        SceneLayer = 31 - %layer;
         DefaultDensity = 0.5;
         DefaultFriction = 0.1;
         DefaultRestitution = 0.9;
@@ -51,7 +56,7 @@ function TmxMapToy::reset( %this )
    %db.setLinearVelocity("5 3");
     
    SandboxScene.add( %db );
-     
+   return %db;
 }
 
 //-----------------------------------------------------------------------------
