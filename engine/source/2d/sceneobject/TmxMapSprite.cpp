@@ -144,11 +144,11 @@ void TmxMapSprite::BuildMap()
 
 		auto compSprite = CreateLayer(layerNumber, orient == Tmx::TMX_MO_ISOMETRIC);
 
-		int xTiles = mapParser->GetWidth();
-		int yTiles = mapParser->GetHeight();
-		for(int x=0; x < xTiles; ++x)
+		U32 xTiles = mapParser->GetWidth();
+		U32 yTiles = mapParser->GetHeight();
+		for(U32 x=0; x < xTiles; ++x)
 		{
-			for (int y=0; y < yTiles; ++y)
+			for (U32 y=0; y < yTiles; ++y)
 			{
 				auto tile = layer->GetTile(x, y);
 				if (tile.tilesetId == -1) continue; //no tile at this location
@@ -180,7 +180,7 @@ void TmxMapSprite::BuildMap()
 				pos.add(Vector2(widthOffset, heightOffset));
 				pos *= mMapPixelToMeterFactor;
 				*/
-				auto bId = compSprite->addSprite( SpriteBatchItem::LogicalPosition( Vector2(x,yTiles-y).scriptThis()) );
+				auto bId = compSprite->addSprite( SpriteBatchItem::LogicalPosition( Vector2(static_cast<F32>(x),static_cast<F32>(yTiles-y)).scriptThis()) );
 				compSprite->selectSpriteId(bId);
 				compSprite->setSpriteImage(assetName, localFrame);
 				//compSprite->setSpriteSize( Vector2( spriteWidth * mMapPixelToMeterFactor, spriteHeight * mMapPixelToMeterFactor ) );
