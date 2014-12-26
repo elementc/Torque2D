@@ -137,7 +137,7 @@ void TmxMapSprite::BuildMap()
 		Tmx::Layer* layer = *layerItr;
 
 		//default to layer 0, unless a property is added to the layer that overrides it.
-		int layerNumber = 0;
+		S32 layerNumber = 0;
 		layerNumber = layer->GetProperties().GetNumericProperty(TMX_MAP_LAYER_ID_PROP);
 
 
@@ -159,7 +159,7 @@ void TmxMapSprite::BuildMap()
 				if (assetName == StringTable->EmptyString) continue;
 
 
-				int localFrame = tile.id;
+				U32 localFrame = tile.id;
 				F32 spriteHeight = static_cast<F32>( tset->GetTileHeight() );
 				F32 spriteWidth = static_cast<F32>( tset->GetTileWidth() );
 
@@ -200,7 +200,7 @@ void TmxMapSprite::BuildMap()
 		auto groupLayer = *groupIdx;
 
 		//default to layer 0, unless a property is added to the layer that overrides it.
-		int layerNumber = 0;
+		U32 layerNumber = 0;
 		layerNumber = groupLayer->GetProperties().GetNumericProperty(TMX_MAP_LAYER_ID_PROP);
 		auto compSprite = CreateLayer(layerNumber, orient == Tmx::TMX_MO_ISOMETRIC);
 
@@ -238,7 +238,7 @@ void TmxMapSprite::BuildMap()
 	}
 }
 
-void TmxMapSprite::addObjectAsSprite(const Tmx::Tileset* tileSet, Tmx::Object* object, Tmx::Map * mapParser, int gid, CompositeSprite* compSprite ){
+void TmxMapSprite::addObjectAsSprite(const Tmx::Tileset* tileSet, Tmx::Object* object, Tmx::Map * mapParser, U32 gid, CompositeSprite* compSprite ){
 
 	F32 tileWidth = static_cast<F32>( mapParser->GetTileWidth() );
 	F32 tileHeight = static_cast<F32>(mapParser->GetTileHeight());
@@ -298,8 +298,8 @@ void TmxMapSprite::addPhysicsPolyLine(Tmx::Object* object, CompositeSprite* comp
 	Tmx::MapOrientation orient = mapParser->GetOrientation();
 
 	const Tmx::Polyline* line = object->GetPolyline();
-	int points = line->GetNumPoints();
-	for (int i = 0; i < points-1; i++){
+	U32 points = line->GetNumPoints();
+	for (U32 i = 0; i < points-1; i++){
 
 		Tmx::Point first = line->GetPoint(i);
 		Tmx::Point second = line->GetPoint(i+1);
@@ -454,7 +454,7 @@ Vector2 TmxMapSprite::TileToCoord(Vector2& pos, Vector2& tileSize, Vector2& offs
 	}
 }
 
-CompositeSprite* TmxMapSprite::CreateLayer(int layerIndex, bool isIso)
+CompositeSprite* TmxMapSprite::CreateLayer(U32 layerIndex, bool isIso)
 {
 	CompositeSprite* compSprite = new CompositeSprite();
 	mLayers.push_back(compSprite);
@@ -495,7 +495,7 @@ const char* TmxMapSprite::getFileName(const char* path)
 	pStr = pStr+1;
 
 	auto pDot = dStrrchr(pStr, '.');
-	int file_len = pDot - pStr;
+	U32 file_len = pDot - pStr;
 	if (file_len >= 1024) return NULL;
 
 	char buffer[1024];
@@ -538,7 +538,7 @@ StringTableEntry TmxMapSprite::GetTilesetAsset(const Tmx::Tileset* tileSet)
 	return assetName;
 }
 
-const char* TmxMapSprite::getTileProperty(StringTableEntry lName, StringTableEntry pName, int x,int y){
+const char* TmxMapSprite::getTileProperty(StringTableEntry lName, StringTableEntry pName, U32 x,U32 y){
 	//we'll need a parser and to iterate over the layers
 	auto mapParser = mMapAsset->getParser();
 	auto layerItr = mapParser->GetLayers().begin();
