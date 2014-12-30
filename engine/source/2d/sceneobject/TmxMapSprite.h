@@ -44,9 +44,6 @@ private: //config
 	F32					  mMapPixelToMeterFactor;	//This translates TMX pixel/image coordinate space into T2D scene coordinate space. 
 													//The default is to set every pixel equal to 0.03 meters (or about 33 pixels per meter)
 													//This should match up with the rest of your asset design resolution.
-
-private:
-
 	Vector<CompositeSprite*> mLayers;
 	Vector<SceneObject*> mObjects;
 

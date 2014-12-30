@@ -6,6 +6,8 @@
 //script bindings
 #include "TmxMapSprite_ScriptBinding.h"
 
+
+
 //-----------------------------------------------------------------------------
 
 IMPLEMENT_CONOBJECT(TmxMapSprite);
@@ -18,7 +20,6 @@ TmxMapSprite::TmxMapSprite() : mMapPixelToMeterFactor(0.03f),
 {
 	mAutoSizing = true;
 	setBodyType(b2_staticBody);
-	Con::printf("TMXctor");
 }
 
 //------------------------------------------------------------------------------
@@ -35,12 +36,10 @@ void TmxMapSprite::initPersistFields()
 
 	addProtectedField("Map", TypeTmxMapAssetPtr, Offset(mMapAsset, TmxMapSprite), &setMap, &getMap, &writeMap, "");
 	addProtectedField("MapToMeterFactor", TypeF32, Offset(mMapPixelToMeterFactor, TmxMapSprite), &setMapToMeterFactor, &getMapToMeterFactor, &writeMapToMeterFactor, "");
-	Con::printf("TMXipersfield");
 }
 
 bool TmxMapSprite::onAdd()
 {
-	Con::printf("TMXonAdd");
 	auto layerIdx = mLayers.begin();
 	for (layerIdx; layerIdx != mLayers.end(); ++layerIdx)
 	{
@@ -57,22 +56,29 @@ bool TmxMapSprite::onAdd()
 
 void TmxMapSprite::onRemove()
 {
+	auto layerIdx = mLayers.begin();
+	for (layerIdx; layerIdx != mLayers.end(); ++layerIdx)
+	{
+
+	//	(*layerIdx)->onRemove();
+	}
+	auto objectsIdx = mObjects.begin();
+	for (objectsIdx; objectsIdx != mObjects.end(); ++objectsIdx){
+	//	(*objectsIdx)->onRemove();
+	}
 	Parent::onRemove();
-	Con::printf("TMXonRemove");
 }
 
 void TmxMapSprite::OnRegisterScene(Scene* pScene)
 {
-	Con::printf("TMXORS1");
+
 	Parent::OnRegisterScene(pScene);
-	Con::printf("TMXORS2");
 	auto layerIdx = mLayers.begin();
 	for(layerIdx; layerIdx != mLayers.end(); ++layerIdx)
 	{
 
 		pScene->addToScene(*layerIdx);
 	}
-	Con::printf("TMXORS3");
 	auto objectsIdx = mObjects.begin();
 	for (objectsIdx; objectsIdx != mObjects.end(); ++objectsIdx){
 		pScene->addToScene(*objectsIdx);
@@ -87,11 +93,11 @@ void TmxMapSprite::OnUnregisterScene( Scene* pScene )
 	auto layerIdx = mLayers.begin();
 	for(layerIdx; layerIdx != mLayers.end(); ++layerIdx)
 	{
-		pScene->removeFromScene(*layerIdx);
+		//(*layerIdx)->OnUnregisterScene(pScene);
 	}
 	auto objectsIdx = mObjects.begin();
 	for (objectsIdx; objectsIdx != mObjects.end(); ++objectsIdx){
-		pScene->removeFromScene(*objectsIdx);
+		//(*objectsIdx)->OnUnregisterScene(pScene);
 	}
 }
 
@@ -111,8 +117,8 @@ void TmxMapSprite::ClearMap()
 	auto layerIdx = mLayers.begin();
 	for(layerIdx; layerIdx != mLayers.end(); ++layerIdx)
 	{
-		CompositeSprite* sprite = *layerIdx;
-		delete sprite;
+		//CompositeSprite* sprite = *layerIdx;
+		//delete sprite;
 	}
 	mLayers.clear();
 	auto objectsIdx = mObjects.begin();
@@ -124,7 +130,6 @@ void TmxMapSprite::ClearMap()
 }
 void TmxMapSprite::BuildMap()
 {
-	Con::printf("TMXBuildMap");
 	// Debug Profiling.
 	PROFILE_SCOPE(TmxMapSprite_BuildMap);
 
@@ -211,6 +216,7 @@ void TmxMapSprite::BuildMap()
 
 	}
 
+	//now do object groups...
 	auto groupIdx = mapParser->GetObjectGroups().begin();
 
 	for(groupIdx; groupIdx != mapParser->GetObjectGroups().end(); ++groupIdx)
@@ -230,14 +236,38 @@ void TmxMapSprite::BuildMap()
 			auto object = *objectIdx;
 
 			
-			//do a number of things. First: try it as a tile
+			//do a number of things.
+			//try it as a script reference
+			if (object->GetType() == TMX_MAP_SCRIPT_OBJECT || groupLayer->GetName() == TMX_MAP_SCRIPT_OBJECT){
+				char buffer[128];
+				dItoa(layerNumber, buffer);
+				Vector2 pixLoc = Vector2(
+					object->GetX(),
+					object->GetY()
+					);
+				const char* loc = PixelToCoord(pixLoc).scriptThis();
+
+				if (object->GetProperties().HasProperty(TMX_MAP_SCRIPT_FUNCTION)){
+					// Function("x y", layer);
+					Con::evaluatef("%s(\"%s\", %s);", object->GetProperties().GetLiteralProperty(TMX_MAP_SCRIPT_FUNCTION).c_str(), loc, &buffer);
+				}
+				else if (object->GetName() == TMX_MAP_SCRIPT_FUNCTION){
+					Con::evaluatef("%s(\"%s\", %s);", object->GetType().c_str(), loc, &buffer);
+				}
+				else if (object->GetType() == TMX_MAP_SCRIPT_FUNCTION){
+					Con::evaluatef("%s(\"%s\", %s);", object->GetName().c_str(), loc, &buffer);
+				}
+				continue; //don't allow script refs to have a sprite or physics presence...
+			}
+			//try it as a tile
 			auto gid = object->GetGid();
 			auto tileSet = mapParser->FindTileset(gid);
-			if (tileSet != NULL) 
+			if (tileSet != NULL){
 				addObjectAsSprite(tileSet, object, mapParser, gid, compSprite);
-			//is it a physics object?
+				continue;
+			}
+			//try it as a physics object.
 			if (object->GetName() == TMX_MAP_COLLISION_OBJECT || object->GetType() == TMX_MAP_COLLISION_OBJECT || groupLayer->GetName() == TMX_MAP_COLLISION_OBJECT){
-				//it is!
 				//try to add some physics bodies...
 
 				if (object->GetPolyline() != nullptr){
@@ -253,31 +283,8 @@ void TmxMapSprite::BuildMap()
 					//must be a rectangle. 
 					addPhysicsRectangle(object, compSprite);
 				}
-				return;
-			}
-			//handle console calls
-			if (object->GetType() == TMX_MAP_SCRIPT_OBJECT || groupLayer->GetName()==TMX_MAP_SCRIPT_OBJECT){
-				char buffer[128];
-				dItoa(layerNumber, buffer);
-				const char* loc = PixelToCoord(
-						Vector2(
-							object->GetX(),
-							object->GetY()
-						)
-					).scriptThis();
-
-				if (object->GetProperties().HasProperty(TMX_MAP_SCRIPT_FUNCTION)){
-					// Function("x y", layer);
-					Con::evaluatef("%s(\"%s\", %s);", object->GetProperties().GetLiteralProperty(TMX_MAP_SCRIPT_FUNCTION).c_str(), loc, &buffer);
-				}
-				else if (object->GetName() == TMX_MAP_SCRIPT_FUNCTION){
-					Con::evaluatef("%s(\"%s\", %s);", object->GetType().c_str(),loc , &buffer );
-				}
-				else if (object->GetType() == TMX_MAP_SCRIPT_FUNCTION){
-					Con::evaluatef("%s(\"%s\", %s);", object->GetName().c_str(), loc, &buffer);
-				}
-			}
-		  
+				continue;
+			}		  
 		}
 	}
 }
@@ -481,11 +488,21 @@ Vector2 TmxMapSprite::CoordToTile(Vector2& pos, Vector2& tileSize, bool isIso)
 }
 
 Vector2 TmxMapSprite::PixelToCoord(Vector2& pixPos){
-		Vector2 newPos(
-			pixPos.x * mMapPixelToMeterFactor,
-			pixPos.y * mMapPixelToMeterFactor
-			);
-		return newPos;
+	//	Vector2 newPos(
+	//		pixPos.x * mMapPixelToMeterFactor,
+	//		pixPos.y * mMapPixelToMeterFactor
+	//		);
+	auto mapParser = mMapAsset->getParser();
+	F32 tileWidth = static_cast<F32>(mapParser->GetTileWidth());
+	F32 tileHeight = static_cast<F32>(mapParser->GetTileHeight());
+	F32 mapHeight = (mapParser->GetHeight() * tileHeight);
+	Vector2 tileSize(tileWidth, tileHeight);
+	Tmx::MapOrientation orient = mapParser->GetOrientation();
+	Vector2 tilecoord = CoordToTile(Vector2(pixPos.x, mapHeight - (pixPos.y)), tileSize, orient == Tmx::TMX_MO_ISOMETRIC);
+	b2Vec2 nativePoint = tilecoord;
+	nativePoint += b2Vec2(-tileWidth / 2, tileHeight / 2);
+	nativePoint *= mMapPixelToMeterFactor;
+		return nativePoint;
 }
 
 Vector2 TmxMapSprite::TileToCoord(Vector2& pos, Vector2& tileSize, Vector2& offset, bool isIso)
