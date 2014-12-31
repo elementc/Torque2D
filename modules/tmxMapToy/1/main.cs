@@ -42,19 +42,11 @@ function Player(%pos, %layer){
 //add a simple dynamic sprite to collide with the tiles
     %db = new Sprite(TestAnimation)
     {
-        Animation = "ToyAssets:TD_Knight_MoveWest";
         position = %pos;
-        size = "1.5 1.5";
         SceneLayer = 31 - %layer;
-        DefaultDensity = 0.5;
-        DefaultFriction = 0.1;
-        DefaultRestitution = 0.9;
     };
     
    %db.createCircleCollisionShape(0.2);  
-   %db.setFixedAngle(true);
-   %db.setLinearVelocity("5 3");
-    
    SandboxScene.add( %db );
    return %db;
 }

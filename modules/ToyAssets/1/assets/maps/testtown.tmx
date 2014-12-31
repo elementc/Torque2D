@@ -365,7 +365,17 @@
   </data>
  </layer>
  <objectgroup name="Script" width="40" height="40">
-  <object name="Function" type="Player" gid="189" x="669" y="760"/>
+  <object name="Function" type="Player" gid="189" x="669" y="760">
+   <properties>
+    <property name="Animation" value="&quot;ToyAssets:TD_Knight_MoveWest&quot;"/>
+    <property name="DefaultDensity" value="0.5"/>
+    <property name="DefaultFriction" value="0"/>
+    <property name="DefaultRestitution" value="1.0"/>
+    <property name="FixedAngle" value="true"/>
+    <property name="LinearVelocity" value="&quot;5 3&quot;"/>
+    <property name="size" value="&quot;1.5 1.5&quot;"/>
+   </properties>
+  </object>
  </objectgroup>
  <layer name="Fringe" width="40" height="40">
   <data encoding="base64" compression="gzip">

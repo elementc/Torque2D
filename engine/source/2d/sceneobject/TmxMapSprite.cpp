@@ -246,17 +246,37 @@ void TmxMapSprite::BuildMap()
 					object->GetY()
 					);
 				const char* loc = PixelToCoord(pixLoc).scriptThis();
+				std::string result;
 
 				if (object->GetProperties().HasProperty(TMX_MAP_SCRIPT_FUNCTION)){
 					// Function("x y", layer);
-					Con::evaluatef("%s(\"%s\", %s);", object->GetProperties().GetLiteralProperty(TMX_MAP_SCRIPT_FUNCTION).c_str(), loc, &buffer);
+					result = Con::evaluatef("%s(\"%s\", %s);", object->GetProperties().GetLiteralProperty(TMX_MAP_SCRIPT_FUNCTION).c_str(), loc, &buffer);
 				}
 				else if (object->GetName() == TMX_MAP_SCRIPT_FUNCTION){
-					Con::evaluatef("%s(\"%s\", %s);", object->GetType().c_str(), loc, &buffer);
+					result = Con::evaluatef("%s(\"%s\", %s);", object->GetType().c_str(), loc, &buffer);
 				}
 				else if (object->GetType() == TMX_MAP_SCRIPT_FUNCTION){
-					Con::evaluatef("%s(\"%s\", %s);", object->GetName().c_str(), loc, &buffer);
+					result = Con::evaluatef("%s(\"%s\", %s);", object->GetName().c_str(), loc, &buffer);
 				}
+				Con::printf("Executed a script and got %s back", result.c_str());
+
+				std::map<std::string, std::string> list = object->GetProperties().GetList();
+				for (auto iter = list.begin(); 
+						iter != list.end();
+						iter++){
+					char res[80];
+					strcpy(res, result.c_str());
+					if (
+						iter->first != std::string(TMX_MAP_SCRIPT_FUNCTION) 
+						&& 
+						iter->second != std::string(TMX_MAP_SCRIPT_FUNCTION)
+						){
+						Con::printf("generating code to set property %s of %s to value %s", iter->first.c_str(), res, iter->second.c_str());
+						Con::evaluatef("%s.%s = %s;", res, iter->first.c_str(), iter->second.c_str());
+					}
+				}
+				
+
 				continue; //don't allow script refs to have a sprite or physics presence...
 			}
 			//try it as a tile
