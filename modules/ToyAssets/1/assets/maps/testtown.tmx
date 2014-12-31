@@ -364,8 +364,13 @@
    H4sIAAAAAAAAC+3VYQ7CIAwFYK5qdgXjbTwCR4EzqclIXl7aDQwFdP3xQkRk3zrLUgghv5MWGLXMdrnPfSuMo3xPyNV9uWF/r5/7RvmOgr6ztfj/vpKv9vlqFulcsPQd1Y/XjPBhbhD2Sb/T5qx8XIMVfLh3pDnJt8GY9nGDecv6Rfp+hfqxT+sPrClfE/u7py+SgT9L54vUy1zfnr4SzcXnC9cP50b7atwcK1+xfGPC++ndH2ejdF3prIzCul6+lufGNZ/pk+o3y1feuzW+8r4Y5fvse9+DPaL5HntmP98Y6vrS2qeNLbE4/9znvn/x1cR9v+/LSl6AqcfwABkAAA==
   </data>
  </layer>
+ <layer name="Fringe" width="40" height="40">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+1YS07DMBB19nz3UMoREFdASJwAsawqVRViWfUAXbOo2HAF1lW3nIWL0IJd5bUvkxnHbtoN9KmjOPE4fvPx2KlzBxzwj1D4X7HfKZZefrR7ZW6pe+b7z4v681YQ85749qlyj7kZ6Pv27YWXrm9fF/V3tIG0uePbV/Ru3GNuBvqOvBwrY9r4EWOlzVo8zXlKnQsvl8rYNn6UY2GzFk9rHuhYYzstfGjFQIunjDkgY66NZdtSubIexj/79kuCMJp0p8K2Wg4ZYJswfpZgVy4m4l7mgYW1TbQGwC/mx6l4T4rPV2NEDbPyJYB9y2sA/GJ+nLuNTyYNujwmp26zbzmPZ8acXTEXg3XHEX5mDVNgrVv2X8/LV3kN/N4j/MCrT8Lcgsjan1IXpS3Mb0RyS22NXz8i4CfniuXfGqLGa/H98PJQXuEPjV9H4RaefZZjUv2mrQ1ZX3LXR4jvTXllwbM5+aJpX9bWhozv0G1qw0A8G7gqhuUz+PitFPgdNsmzj+VHjjt4cXz3AV6/OfkHXm32D94f2O+vhk7KurVs2Kf/tvHbCrTvBDtTzgSMxn3NVesLkFKfA7T9bRv0lfacrnLdptYZ5O1C4dcT0sRP7h9zcXWunvMWmD++HVb8KN675Je1b7jq+QrfDoEfxztwuvNyn8C1T7oav9zvENgj84/PM2G/ffTy5Kr78Uh535h0cV7Q8i8VsCeWf22h5V/q9wfsCbrIP66vuxDshZx/qd8fjnSRf9q3bqxu4T8DBvdr+Zdz/rPqINsYq1v8n4HWH8u/1HyUddA642p1C37X+pdOz79caBw0G5vslf3hXbvgp3FI3X9jOrn15IC/iV+IPSbpABkAAA==
+  </data>
+ </layer>
  <objectgroup name="Script" width="40" height="40">
-  <object name="Function" type="Player" gid="189" x="669" y="760">
+  <object name="Function" type="Player" gid="189" x="702" y="805" width="96" height="128">
    <properties>
     <property name="Animation" value="&quot;ToyAssets:TD_Knight_MoveWest&quot;"/>
     <property name="DefaultDensity" value="0.5"/>
@@ -377,11 +382,6 @@
    </properties>
   </object>
  </objectgroup>
- <layer name="Fringe" width="40" height="40">
-  <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+1YS07DMBB19nz3UMoREFdASJwAsawqVRViWfUAXbOo2HAF1lW3nIWL0IJd5bUvkxnHbtoN9KmjOPE4fvPx2KlzBxzwj1D4X7HfKZZefrR7ZW6pe+b7z4v681YQ85749qlyj7kZ6Pv27YWXrm9fF/V3tIG0uePbV/Ru3GNuBvqOvBwrY9r4EWOlzVo8zXlKnQsvl8rYNn6UY2GzFk9rHuhYYzstfGjFQIunjDkgY66NZdtSubIexj/79kuCMJp0p8K2Wg4ZYJswfpZgVy4m4l7mgYW1TbQGwC/mx6l4T4rPV2NEDbPyJYB9y2sA/GJ+nLuNTyYNujwmp26zbzmPZ8acXTEXg3XHEX5mDVNgrVv2X8/LV3kN/N4j/MCrT8Lcgsjan1IXpS3Mb0RyS22NXz8i4CfniuXfGqLGa/H98PJQXuEPjV9H4RaefZZjUv2mrQ1ZX3LXR4jvTXllwbM5+aJpX9bWhozv0G1qw0A8G7gqhuUz+PitFPgdNsmzj+VHjjt4cXz3AV6/OfkHXm32D94f2O+vhk7KurVs2Kf/tvHbCrTvBDtTzgSMxn3NVesLkFKfA7T9bRv0lfacrnLdptYZ5O1C4dcT0sRP7h9zcXWunvMWmD++HVb8KN675Je1b7jq+QrfDoEfxztwuvNyn8C1T7oav9zvENgj84/PM2G/ffTy5Kr78Uh535h0cV7Q8i8VsCeWf22h5V/q9wfsCbrIP66vuxDshZx/qd8fjnSRf9q3bqxu4T8DBvdr+Zdz/rPqINsYq1v8n4HWH8u/1HyUddA642p1C37X+pdOz79caBw0G5vslf3hXbvgp3FI3X9jOrn15IC/iV+IPSbpABkAAA==
-  </data>
- </layer>
  <layer name="Over" width="40" height="40">
   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAAC+2Yy0oDMRSGzyiigpeNStG6cqEi6k6kFqmufAYpiHTv5SF8hD6dbryAongpqCDU6h/MkBgynSiTy0A++Mi0PUxOTmZ6OiWKRCKRcOnCz5yYHvxykIuOsYRoPOkfM4HPJ3NibFHFvPOe5rZN03cCfTiCx/DE8bxNZXQ9N7vUBuAgHOIOwxE4SqImrmsj78c0nIEV7iycg9Wcc7S4NlmES3AZrnBX4RpcV2LlWrcU5ZoXBdvfGtyCdbjNbcAduKvET5GoNeMVPvL8TGtuiu5+aytjuoZ0lGutklVzm6RrkNeS1vqAx+zzsUH6mvuinXHsE5PvQF89xKQ/FNlDytgrz+GF+3SMuIRX8BreeM5F5RbewUPuA4lezNT1BFu9rat57wk+wxfYgfckejGzqJ7wX97gu/T6g0QvZrrsCUnGb/dT6XgDbsIF+unHjFrG+c6KSqwk6K6/EOgZxvh6rv1FSZ8fg6gdx2S//0JIa9Nh6/+OPY0mcRH36PYqJL8BZBBzwgAZAAA=
@@ -434,6 +434,15 @@
   <object x="847" y="782" width="92" height="18"/>
   <object x="1" y="1275">
    <polyline points="0,0 1,-1272 1278,-1267 1272,2 0,2"/>
+  </object>
+  <object x="-18" y="756">
+   <polyline points="0,0 64,-64 -8,-238"/>
+  </object>
+  <object x="1380" y="616">
+   <polyline points="0,0 -142,124 -10,360"/>
+  </object>
+  <object x="438" y="-52">
+   <polyline points="0,0 118,138 438,-8"/>
   </object>
  </objectgroup>
 </map>

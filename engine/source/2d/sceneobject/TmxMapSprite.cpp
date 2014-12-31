@@ -172,10 +172,10 @@ void TmxMapSprite::BuildMap()
 		{
 			for (U32 y=0; y < yTiles; ++y)
 			{
-				auto tile = layer->GetTile(x, y);
-				if (tile.tilesetId == -1) continue; //no tile at this location
+				const Tmx::MapTile& tile = layer->GetTile(x, y);
+				if (tile.tilesetId == TMX_MAP_NO_TILE) continue; //no tile at this location
 
-				auto tset = mapParser->GetTileset(tile.tilesetId);
+				const Tmx::Tileset* tset = mapParser->GetTileset(tile.tilesetId);
 
 				StringTableEntry assetName = GetTilesetAsset(tset);
 				if (assetName == StringTable->EmptyString) continue;
@@ -188,20 +188,6 @@ void TmxMapSprite::BuildMap()
 				F32 heightOffset = (spriteHeight - tileHeight) / 2;
 				F32 widthOffset = (spriteWidth - tileWidth) / 2;
 
-
-				/*Vector2 pos = TileToCoord( 
-					Vector2
-						(
-							static_cast<const F32>(x),
-							static_cast<const F32>(yTiles-y)	
-						),
-					tileSize,
-					originSize,
-					orient == Tmx::TMX_MO_ISOMETRIC
-					);
-				pos.add(Vector2(widthOffset, heightOffset));
-				pos *= mMapPixelToMeterFactor;
-				*/
 				auto bId = compSprite->addSprite( SpriteBatchItem::LogicalPosition( Vector2(static_cast<F32>(x),static_cast<F32>(yTiles-y)).scriptThis()) );
 				compSprite->selectSpriteId(bId);
 				compSprite->setSpriteImage(assetName, localFrame);
@@ -239,40 +225,43 @@ void TmxMapSprite::BuildMap()
 			//do a number of things.
 			//try it as a script reference
 			if (object->GetType() == TMX_MAP_SCRIPT_OBJECT || groupLayer->GetName() == TMX_MAP_SCRIPT_OBJECT){
-				char buffer[128];
-				dItoa(layerNumber, buffer);
+
+				std::string result;
+				if (object->GetProperties().HasProperty(TMX_MAP_SCRIPT_FUNCTION)){
+					result = Con::evaluatef("%s();", object->GetProperties().GetLiteralProperty(TMX_MAP_SCRIPT_FUNCTION).c_str());
+				}
+				else if (object->GetName() == TMX_MAP_SCRIPT_FUNCTION){
+					result = Con::evaluatef("%s();", object->GetType().c_str());
+				}
+				else if (object->GetType() == TMX_MAP_SCRIPT_FUNCTION){
+					result = Con::evaluatef("%s();", object->GetName().c_str());
+				}
+				//Con::printf("Executed a script and got %s back", result.c_str());
+
+				//set the object's layer...
+				char layer[128];
+				dItoa(layerNumber, layer);
+				Con::evaluatef("%s.SceneLayer = %s;", result.c_str(),layer);
+				//set the object's position...
 				Vector2 pixLoc = Vector2(
 					static_cast<F32>(object->GetX()),
 					static_cast<F32>(object->GetY())
 					);
 				const char* loc = PixelToCoord(pixLoc).scriptThis();
-				std::string result;
+				Con::evaluatef("%s.position = \"%s\";", result.c_str(), loc);
 
-				if (object->GetProperties().HasProperty(TMX_MAP_SCRIPT_FUNCTION)){
-					// Function("x y", layer);
-					result = Con::evaluatef("%s(\"%s\", %s);", object->GetProperties().GetLiteralProperty(TMX_MAP_SCRIPT_FUNCTION).c_str(), loc, &buffer);
-				}
-				else if (object->GetName() == TMX_MAP_SCRIPT_FUNCTION){
-					result = Con::evaluatef("%s(\"%s\", %s);", object->GetType().c_str(), loc, &buffer);
-				}
-				else if (object->GetType() == TMX_MAP_SCRIPT_FUNCTION){
-					result = Con::evaluatef("%s(\"%s\", %s);", object->GetName().c_str(), loc, &buffer);
-				}
-				Con::printf("Executed a script and got %s back", result.c_str());
-
+				//assign the rest of the properties from TMX
 				std::map<std::string, std::string> list = object->GetProperties().GetList();
 				for (auto iter = list.begin(); 
 						iter != list.end();
 						iter++){
-					char res[80];
-					strcpy(res, result.c_str());
 					if (
 						iter->first != std::string(TMX_MAP_SCRIPT_FUNCTION) 
 						&& 
 						iter->second != std::string(TMX_MAP_SCRIPT_FUNCTION)
 						){
-						Con::printf("generating code to set property %s of %s to value %s", iter->first.c_str(), res, iter->second.c_str());
-						Con::evaluatef("%s.%s = %s;", res, iter->first.c_str(), iter->second.c_str());
+						//Con::printf("generating code to set property %s of %s to value %s", iter->first.c_str(), result.c_str(), iter->second.c_str());
+						Con::evaluatef("%s.%s = %s;", result.c_str(), iter->first.c_str(), iter->second.c_str());
 					}
 				}
 				
@@ -311,40 +300,16 @@ void TmxMapSprite::BuildMap()
 
 void TmxMapSprite::addObjectAsSprite(const Tmx::Tileset* tileSet, Tmx::Object* object, Tmx::Map * mapParser, U32 gid, CompositeSprite* compSprite ){
 
-	F32 tileWidth = static_cast<F32>( mapParser->GetTileWidth() );
-	F32 tileHeight = static_cast<F32>(mapParser->GetTileHeight());
-	F32 objectWidth = static_cast<F32>(tileSet->GetTileWidth());
-	F32 objectHeight = static_cast<F32>(tileSet->GetTileHeight());
-	F32 heightOffset =(objectHeight - tileHeight) / 2;
-	F32 widthOffset = (objectWidth - tileWidth) / 2;
-	F32 halfTileHeight = tileHeight * 0.5f;
-	F32 width = (mapParser->GetWidth() * tileWidth);
-	F32 height = (mapParser->GetHeight() * tileHeight);
-	Vector2 tileSize(tileWidth, tileHeight);
-	F32 originY = height / 2 - halfTileHeight;
-	F32 originX = 0;
-	Vector2 originSize(originX, originY);
-	Tmx::MapOrientation orient = mapParser->GetOrientation();
-
-	Vector2 vTile = CoordToTile( 
+	F32 objectWidth = static_cast<F32>(object->GetWidth());
+	F32 objectHeight = static_cast<F32>(object->GetHeight());
+	Vector2 vTile =
 		Vector2
-				(
-					static_cast<F32>(object->GetX()), 
-					static_cast<F32>(object->GetY())
-				),
-		tileSize,
-		orient == Tmx::TMX_MO_ISOMETRIC
+		(
+		static_cast<F32>(object->GetX()),
+		static_cast<F32>(object->GetY())
 		);
 
-	vTile.sub(Vector2(1,1)); // objects need to be offset by 1 (not sure why right now).
-
-	Vector2 pos = TileToCoord( vTile,
-		tileSize,
-		originSize,
-		orient == Tmx::TMX_MO_ISOMETRIC
-		);
-	pos.add(Vector2(widthOffset, heightOffset));
-	pos *= mMapPixelToMeterFactor;
+	Vector2 pos = PixelToCoord( vTile);
 
 	S32 frameNumber = gid - tileSet->GetFirstGid();
 	StringTableEntry assetName = GetTilesetAsset(tileSet);
@@ -508,10 +473,6 @@ Vector2 TmxMapSprite::CoordToTile(Vector2& pos, Vector2& tileSize, bool isIso)
 }
 
 Vector2 TmxMapSprite::PixelToCoord(Vector2& pixPos){
-	//	Vector2 newPos(
-	//		pixPos.x * mMapPixelToMeterFactor,
-	//		pixPos.y * mMapPixelToMeterFactor
-	//		);
 	auto mapParser = mMapAsset->getParser();
 	F32 tileWidth = static_cast<F32>(mapParser->GetTileWidth());
 	F32 tileHeight = static_cast<F32>(mapParser->GetTileHeight());

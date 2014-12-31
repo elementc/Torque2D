@@ -15,6 +15,7 @@
 #define TMX_MAP_COLLISION_OBJECT "Collision"
 #define TMX_MAP_SCRIPT_OBJECT "Script"
 #define TMX_MAP_SCRIPT_FUNCTION "Function"
+#define TMX_MAP_NO_TILE -1
 
 class TmxMapSprite : public SceneObject
 {

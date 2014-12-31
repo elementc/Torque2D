@@ -38,12 +38,10 @@ function TmxMapToy::reset( %this )
      
 }
 
-function Player(%pos, %layer){
+function Player(){
 //add a simple dynamic sprite to collide with the tiles
     %db = new Sprite(TestAnimation)
     {
-        position = %pos;
-        SceneLayer = 31 - %layer;
     };
     
    %db.createCircleCollisionShape(0.2);  
