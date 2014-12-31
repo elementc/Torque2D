@@ -242,8 +242,8 @@ void TmxMapSprite::BuildMap()
 				char buffer[128];
 				dItoa(layerNumber, buffer);
 				Vector2 pixLoc = Vector2(
-					object->GetX(),
-					object->GetY()
+					static_cast<F32>(object->GetX()),
+					static_cast<F32>(object->GetY())
 					);
 				const char* loc = PixelToCoord(pixLoc).scriptThis();
 				std::string result;
