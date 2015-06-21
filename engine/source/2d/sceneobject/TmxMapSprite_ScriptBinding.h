@@ -24,13 +24,13 @@ ConsoleMethodWithDocs(TmxMapSprite, getTileProperty, const char*, 6, 6, "(layerN
 }
 
 
-ConsoleMethodWithDocs(TmxMapSprite, WorldCoordToTile, const char*, 3,3,"Convert a world cooridnate into a local tile coordinate\n"
+ConsoleMethodWithDocs(TmxMapSprite, WorldCoordToTile, const char*, 3,3,"Convert a world coordinate into a local tile coordinate\n"
 	"@Return a tile coordinate as string (x y)")
 {
 	Vector2 worldPoint(argv[2]);
-	auto localPoint = object->getLocalPoint(worldPoint);
-
-	auto tilePoint = object->CoordToTile(localPoint, object->getTileSize(), object->isIsoMap());
+    Vector2 localPoint = object->getLocalPoint(worldPoint);
+    Vector2 tileSize = object->getTileSize();
+	auto tilePoint = object->CoordToTile(localPoint, tileSize, object->isIsoMap());
 	return tilePoint.scriptThis();
 }
 

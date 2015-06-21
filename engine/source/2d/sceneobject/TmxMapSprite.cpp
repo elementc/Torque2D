@@ -346,9 +346,11 @@ void TmxMapSprite::addPhysicsPolyLine(Tmx::Object* object, CompositeSprite* comp
 			);
 
 		//weird additions and subtractions in this area due to the fact that this engine uses bottom->left as origin, and TMX uses top->right. 
-		//it's hacky, but it works. 
-		Vector2 firstPoint = CoordToTile(Vector2( first.x + lineOrigin.x, height-(lineOrigin.y+first.y)),tileSize,orient == Tmx::TMX_MO_ISOMETRIC);
-		Vector2 secondPoint = CoordToTile(Vector2( second.x + lineOrigin.x, height-(lineOrigin.y+second.y)),tileSize,orient == Tmx::TMX_MO_ISOMETRIC);		
+		//it's hacky, but it works.
+        Vector2 firstvec = Vector2( first.x + lineOrigin.x, height-(lineOrigin.y+first.y));
+		Vector2 firstPoint = CoordToTile(firstvec,tileSize,orient == Tmx::TMX_MO_ISOMETRIC);
+        Vector2 secondvec = Vector2( second.x + lineOrigin.x, height-(lineOrigin.y+second.y));
+		Vector2 secondPoint = CoordToTile(secondvec,tileSize,orient == Tmx::TMX_MO_ISOMETRIC);
 		firstPoint += Vector2(-tileWidth/2,tileHeight/2);
 		secondPoint += Vector2(-tileWidth/2,tileHeight/2);
 
@@ -381,7 +383,8 @@ void TmxMapSprite::addPhysicsPolygon(Tmx::Object* object, CompositeSprite* compS
 
 		//weird additions and subtractions in this area due to the fact that this engine uses bottom->left as origin, and TMX uses top->right. 
 		//it's hacky, but it works.
-		Vector2 tilecoord = CoordToTile(Vector2( tmxPoint.x + origin.x, height-(origin.y+tmxPoint.y)),tileSize,orient == Tmx::TMX_MO_ISOMETRIC);
+        Vector2 isocoord = Vector2( tmxPoint.x + origin.x, height-(origin.y+tmxPoint.y));
+		Vector2 tilecoord = CoordToTile(isocoord,tileSize,orient == Tmx::TMX_MO_ISOMETRIC);
 		b2Vec2 nativePoint = tilecoord;
 		nativePoint += b2Vec2(-tileWidth/2,tileHeight/2);
 		nativePoint *= mMapPixelToMeterFactor;
@@ -419,7 +422,8 @@ void TmxMapSprite::addPhysicsEllipse(Tmx::Object* object, CompositeSprite* compS
 
 		//weird additions and subtractions in this area due to the fact that this engine uses bottom->left as origin, and TMX uses top->right. 
 		//it's hacky, but it works.
-		Vector2 tilecoord = CoordToTile(Vector2( origin.x, mapHeight-(origin.y)),tileSize,orient == Tmx::TMX_MO_ISOMETRIC);
+        Vector2 originOffset = Vector2( origin.x, mapHeight-(origin.y));
+		Vector2 tilecoord = CoordToTile(originOffset ,tileSize,orient == Tmx::TMX_MO_ISOMETRIC);
 		b2Vec2 nativePoint = tilecoord;
 		nativePoint += b2Vec2(-tileWidth/2,tileHeight/2);
 		nativePoint *= mMapPixelToMeterFactor;
@@ -444,7 +448,8 @@ void TmxMapSprite::addPhysicsRectangle(Tmx::Object* object, CompositeSprite* com
 
 		//weird additions and subtractions in this area due to the fact that this engine uses bottom->left as origin, and TMX uses top->right. 
 		//it's hacky, but it works.
-		Vector2 tilecoord = CoordToTile(Vector2( origin.x, mapHeight-(origin.y)),tileSize,orient == Tmx::TMX_MO_ISOMETRIC);
+        Vector2 heightoffset = Vector2( origin.x, mapHeight-(origin.y));
+		Vector2 tilecoord = CoordToTile(heightoffset, tileSize, orient == Tmx::TMX_MO_ISOMETRIC);
 		b2Vec2 nativePoint = tilecoord;
 		nativePoint += b2Vec2(-tileWidth/2,tileHeight/2);
 		nativePoint += b2Vec2(object->GetWidth()/2.0f, -(object->GetHeight()/2.0f)); //adjust for tmx defining from bottom left point while t2d defines from center...
@@ -479,7 +484,8 @@ Vector2 TmxMapSprite::PixelToCoord(Vector2& pixPos){
 	F32 mapHeight = (mapParser->GetHeight() * tileHeight);
 	Vector2 tileSize(tileWidth, tileHeight);
 	Tmx::MapOrientation orient = mapParser->GetOrientation();
-	Vector2 tilecoord = CoordToTile(Vector2(pixPos.x, mapHeight - (pixPos.y)), tileSize, orient == Tmx::TMX_MO_ISOMETRIC);
+    Vector2 heightOffset = Vector2(pixPos.x, mapHeight - (pixPos.y));
+	Vector2 tilecoord = CoordToTile(heightOffset, tileSize, orient == Tmx::TMX_MO_ISOMETRIC);
 	b2Vec2 nativePoint = tilecoord;
 	nativePoint += b2Vec2(-tileWidth / 2, tileHeight / 2);
 	nativePoint *= mMapPixelToMeterFactor;
