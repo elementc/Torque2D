@@ -120,6 +120,7 @@ public:
     bool selectSpriteName( const char* pName );
     inline void deselectSprite( void ) { mSelectedSprite = NULL; }
     bool isSpriteSelected( void ) const { return mSelectedSprite != NULL; }
+    U32 getSpriteId( void ) const;
 
     void setSpriteImage( const char* pAssetId, const U32 imageFrame );
     void setSpriteImage( const char* pAssetId, const char* namedFrame );
@@ -129,7 +130,9 @@ public:
     void setSpriteNamedImageFrame( const char* namedFrame );
     StringTableEntry getSpriteNamedImageFrame( void ) const;
     void setSpriteAnimation( const char* pAssetId );
-    StringTableEntry getSpriteAnimation( void ) const;
+	StringTableEntry getSpriteAnimation(void) const;
+	void setSpriteAnimationFrame(const U32 animationFrame);
+	U32 getSpriteAnimationFrame(void) const;
     void clearSpriteAsset( void );
 
     void setSpriteVisible( const bool visible );

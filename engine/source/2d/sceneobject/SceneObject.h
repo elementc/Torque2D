@@ -143,7 +143,12 @@ protected:
     b2AABB                  mCurrentAABB;
     Vector2                 mLocalSizeOOBB[4];
     Vector2                 mRenderOOBB[4];
-    S32                     mWorldProxyId;
+	S32                     mWorldProxyId;
+
+	// Growing
+	bool					mGrowActive;
+	Vector2					mTargetSize;
+	Vector2					mDeltaSize;
 
     /// Position / Angle.
     Vector2                 mPreTickPosition;
@@ -178,6 +183,14 @@ protected:
     S32                     mDstBlendFactor;
     ColorF                  mBlendColor;
     F32                     mAlphaTest;
+
+	// Fading
+	bool					mFadeActive;
+	ColorF					mTargetColor;
+	F32						mDeltaRed;
+	F32						mDeltaGreen;
+	F32						mDeltaBlue;
+	F32						mDeltaAlpha;
 
     /// Render sorting.
     Vector2                 mSortPoint;
@@ -238,6 +251,9 @@ protected:
     /// Taml callbacks.
     virtual void            onTamlCustomWrite( TamlCustomNodes& customNodes );
     virtual void            onTamlCustomRead( const TamlCustomNodes& customNodes );
+
+	// Effect Processing.
+	F32					processEffect( const F32 current, const F32 target, const F32 rate );
 
 public:
     SceneObject();
@@ -394,6 +410,18 @@ public:
     void                    cancelRotateTo( const bool autoStop = true );
     inline bool             isMoveToComplete( void ) const              { return mMoveToEventId == 0; }
     inline bool             isRotateToComplete( void ) const            { return mRotateToEventId == 0; }
+
+	// Fade to
+	bool					fadeTo( const ColorF& targetColor, const F32 deltaRed, const F32 deltaGreen, const F32 deltaBlue, const F32 deltaAlpha );
+	inline void				cancelFadeTo( void )						{ mFadeActive = false; }
+	inline bool				isFadeToComplete( void ) const				{ return !mFadeActive; }
+	void					updateBlendColor( const F32 elapsedTime );
+
+	// Grow to
+	bool					growTo( const Vector2& targetSize, const Vector2& deltaSize );
+	inline void				cancelGrowTo(void)							{ mGrowActive = false; }
+	inline bool				isGrowToComplete(void) const				{ return !mGrowActive; }
+	void					updateSize(const F32 elapsedTime);
 
     /// Force and impulse.
     void                    applyForce( const Vector2& worldForce, const bool wake = true );
@@ -658,9 +686,11 @@ protected:
     static bool             writeDefaultFriction( void* obj, StringTableEntry pFieldName ) {return mNotEqual(static_cast<SceneObject*>(obj)->getDefaultFriction(), 0.2f); }
     static bool             setDefaultRestitution(void* obj, const char* data) { static_cast<SceneObject*>(obj)->setDefaultRestitution(dAtof(data)); return false; }
     static bool             writeDefaultRestitution( void* obj, StringTableEntry pFieldName ) { return mNotEqual(static_cast<SceneObject*>(obj)->getDefaultRestitution(), 0.0f); }
-    static bool             setCollisionGroups(void* obj, const char* data) { static_cast<SceneObject*>(obj)->setCollisionGroupMask(dAtoi(data)); return false; }
+    static bool             setCollisionGroups(void* obj, const char* data) { static_cast<SceneObject*>(obj)->setCollisionGroupMask(Utility::mConvertStringToMask(data)); return false; }
+    static const char*      getCollisionGroups(void* obj, const char* data) { return Utility::mConvertMaskToString( static_cast<SceneObject*>(obj)->getCollisionGroupMask() ); }
     static bool             writeCollisionGroups( void* obj, StringTableEntry pFieldName ) { return static_cast<SceneObject*>(obj)->getCollisionGroupMask() != MASK_ALL; }
-    static bool             setCollisionLayers(void* obj, const char* data) { static_cast<SceneObject*>(obj)->setCollisionLayerMask(dAtoi(data)); return false; }
+    static bool             setCollisionLayers(void* obj, const char* data) { static_cast<SceneObject*>(obj)->setCollisionLayerMask(Utility::mConvertStringToMask(data)); return false; }
+    static const char*      getCollisionLayers(void* obj, const char* data) { return Utility::mConvertMaskToString( static_cast<SceneObject*>(obj)->getCollisionLayerMask() ); }
     static bool             writeCollisionLayers( void* obj, StringTableEntry pFieldName ) { return static_cast<SceneObject*>(obj)->getCollisionLayerMask() != MASK_ALL; }
     static bool             writeCollisionSuppress( void* obj, StringTableEntry pFieldName ) { return static_cast<SceneObject*>(obj)->getCollisionSuppress() == true; }
     static bool             setGatherContacts(void* obj, const char* data)  { static_cast<SceneObject*>(obj)->setGatherContacts(dAtoi(data)); return false; }
