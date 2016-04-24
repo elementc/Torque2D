@@ -1431,6 +1431,9 @@
     <ClCompile Include="..\..\source\2d\sceneobject\TmxMapSprite.cpp">
       <Filter>2d\sceneobject</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\audio\vorbisStreamSource.cc">
+      <Filter>audio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\audio\audio.h">
@@ -1628,16 +1631,10 @@
     <ClInclude Include="..\..\source\platform\types.win32.h">
       <Filter>platform</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\platform\typesLinux.h">
-      <Filter>platform</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\platform\typesPPC.h">
       <Filter>platform</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\platform\typesWin32.h">
-      <Filter>platform</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\platform\typesX86UNIX.h">
       <Filter>platform</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\platform\menus\popupMenu.h">
@@ -2474,9 +2471,6 @@
     <ClInclude Include="..\..\source\2d\sceneobject\SceneObject_ScriptBinding.h">
       <Filter>2d\sceneobject</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\2d\sceneobject\SceneObjectMoveToEvent.h">
-      <Filter>2d\sceneobject</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\2d\sceneobject\SceneObjectRotateToEvent.h">
       <Filter>2d\sceneobject</Filter>
     </ClInclude>
@@ -3176,6 +3170,12 @@
     </ClInclude>
     <ClInclude Include="..\..\source\2d\sceneobject\TmxMapSprite_ScriptBinding.h">
       <Filter>2d\sceneobject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\audio\vorbisStreamSource.h">
+      <Filter>audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\platformWin32\winVersion.h">
+      <Filter>platformWin32</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
