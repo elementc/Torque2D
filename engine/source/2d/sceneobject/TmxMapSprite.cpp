@@ -343,41 +343,59 @@ void TmxMapSprite::addObjectAsSprite(const Tmx::Tileset* tileSet, Tmx::Object* o
 }
 
 void TmxMapSprite::addPhysicsPolyLine(Tmx::Object* object, CompositeSprite* compSprite, const Vector2* offset){
+    auto mapParser = mMapAsset->getParser();
+    F32 tileWidth = static_cast<F32>(mapParser->GetTileWidth());
+    F32 tileHeight = static_cast<F32>(mapParser->GetTileHeight());
+    F32 mapHeight = (mapParser->GetHeight() * tileHeight);
+    Vector2 tileSize(tileWidth, tileHeight);
+    Tmx::MapOrientation orient = mapParser->GetOrientation();
+    b2Vec2 origin = b2Vec2
+    (
+     static_cast<float32>(object->GetX()),
+     static_cast<float32>(object->GetY())
+     );
+    if (offset){
+        origin.x += offset->x;
+        origin.y += offset->y;
+    }
+    
+    
+    //weird additions and subtractions in this area due to the fact that this engine uses bottom->left as origin, and TMX uses top->right.
+    //it's hacky, but it works.
+    Vector2 heightoffset = Vector2( origin.x, mapHeight-(origin.y));
+    Vector2 tilecoord = CoordToTile(heightoffset, tileSize, orient == Tmx::TMX_MO_ISOMETRIC);
+    b2Vec2 nativePoint = tilecoord;
+    nativePoint += b2Vec2(-tileWidth/2,tileHeight/2);
+   // nativePoint += b2Vec2(object->GetWidth()/2.0f, -(object->GetHeight()/2.0f)); //adjust for tmx defining from bottom left point while t2d defines from center...
+   // nativePoint *= mMapPixelToMeterFactor;
+    const Tmx::Polyline* line = object->GetPolyline();
 
-	auto mapParser = mMapAsset->getParser();
-	F32 tileWidth = static_cast<F32>(mapParser->GetTileWidth());
-	F32 tileHeight = static_cast<F32>(mapParser->GetTileHeight());
-	F32 height = (mapParser->GetHeight() * tileHeight);
-	Vector2 tileSize(tileWidth, tileHeight);
-	Tmx::MapOrientation orient = mapParser->GetOrientation();
-	Vector2 lineOrigin = Vector2
-		(
-			static_cast<F32>(object->GetX()),
-			static_cast<F32>(object->GetY())
-			);
-	if (offset) {
-		lineOrigin.x += offset->x;
-		lineOrigin.y += offset->y;
-	}
-	const Tmx::Polyline* line = object->GetPolyline();
 	U32 points = line->GetNumPoints();
-	for (U32 i = 0; i < points-1; i++){
+    if (points > 0){
+        //find object height:
+        F32 min = line->GetPoint(0).y;
+        F32 max = line->GetPoint(0).y;
+        for (U32 i = 0; i < points; i++){
+            Tmx::Point point = line->GetPoint(i);
+            if (point.y > max)
+                max = point.y;
+            if (point.y < min)
+                min = point.y;
+        }
+            
+        F32 polylineHeight = max - min;
+        for (U32 i = 0; i < points-1; i++){
 
-		Tmx::Point first = line->GetPoint(i);
-		Tmx::Point second = line->GetPoint(i+1);
+            Tmx::Point first = line->GetPoint(i);
+            Tmx::Point second = line->GetPoint(i+1);
+            
+            Vector2 firstvec = Vector2(nativePoint.x + first.x, nativePoint.y - first.y);
+            Vector2 secondvec = Vector2(nativePoint.x + second.x, nativePoint.y - second.y);
 
-		//weird additions and subtractions in this area due to the fact that this engine uses bottom->left as origin, and TMX uses top->right. 
-		//it's hacky, but it works.
-        Vector2 firstvec = Vector2( first.x + lineOrigin.x, height-(lineOrigin.y+first.y));
-		Vector2 firstPoint = CoordToTile(firstvec,tileSize,orient == Tmx::TMX_MO_ISOMETRIC);
-        Vector2 secondvec = Vector2( second.x + lineOrigin.x, height-(lineOrigin.y+second.y));
-		Vector2 secondPoint = CoordToTile(secondvec,tileSize,orient == Tmx::TMX_MO_ISOMETRIC);
-		firstPoint += Vector2(-tileWidth/2,tileHeight/2);
-		secondPoint += Vector2(-tileWidth/2,tileHeight/2);
+            compSprite->createEdgeCollisionShape(firstvec * mMapPixelToMeterFactor, secondvec * mMapPixelToMeterFactor, false, false, Vector2(), Vector2());
 
-		compSprite->createEdgeCollisionShape(firstPoint * mMapPixelToMeterFactor, secondPoint * mMapPixelToMeterFactor, false, false, Vector2(), Vector2());
-
-	}
+        }
+    }
 
 	
 
@@ -398,6 +416,10 @@ void TmxMapSprite::addPhysicsPolygon(Tmx::Object* object, CompositeSprite* compS
 			static_cast<float32>(object->GetX()), 
 			static_cast<float32>(object->GetY())
 		);
+    if (offset){
+        origin.x += offset->x;
+        origin.y += offset->y;
+    }
 	for (int i = 0; i < points; i++)
 	{
 		Tmx::Point tmxPoint = line->GetPoint(i);
@@ -429,6 +451,10 @@ void TmxMapSprite::addPhysicsEllipse(Tmx::Object* object, CompositeSprite* compS
 			static_cast<float32>(ellipse->GetCenterX()), 
 			static_cast<float32>(ellipse->GetCenterY())
 		);
+    if (offset){
+        origin.x += offset->x;
+        origin.y += offset->y;
+    }
 
 	F32 ellipseHeight = static_cast<F32>(ellipse->GetRadiusY());
 	F32 ellipseWidth = static_cast<F32>(ellipse->GetRadiusX());
@@ -465,6 +491,10 @@ void TmxMapSprite::addPhysicsRectangle(Tmx::Object* object, CompositeSprite* com
 			static_cast<float32>(object->GetX()), 
 			static_cast<float32>(object->GetY())
 		);
+    if (offset){
+        origin.x += offset->x;
+        origin.y += offset->y;
+    }
 
 
 		//weird additions and subtractions in this area due to the fact that this engine uses bottom->left as origin, and TMX uses top->right. 
