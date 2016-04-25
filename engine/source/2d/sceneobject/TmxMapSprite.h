@@ -56,11 +56,13 @@ private: //config
 	CompositeSprite* CreateLayer(U32 layerIndex, bool isIso);
 	const char* getFileName(const char* path);
 	StringTableEntry GetTilesetAsset(const Tmx::Tileset* tileSet);
-	void addObjectAsSprite(const Tmx::Tileset* tileSet, Tmx::Object* object, Tmx::Map * mapParser, U32 gid, CompositeSprite* compSprite );
-	void addPhysicsPolyLine(Tmx::Object* object, CompositeSprite* compSprite);
-	void addPhysicsPolygon(Tmx::Object* object, CompositeSprite* compSprite);
-	void addPhysicsEllipse(Tmx::Object* object, CompositeSprite* compSprite);
-	void addPhysicsRectangle(Tmx::Object* object, CompositeSprite* compSprite);
+	void addObjectGroup(const Tmx::ObjectGroup* objectGroup, const Vector2* offset);
+	void addScriptObject(const Tmx::Object* object, S32 layerNumber, const Vector2* offset);
+	void addObjectAsSprite(const Tmx::Tileset* tileSet, Tmx::Object* object, Tmx::Map * mapParser, U32 gid, CompositeSprite* compSprite, const Vector2* offset);
+	void addPhysicsPolyLine(Tmx::Object* object, CompositeSprite* compSprite, const Vector2* offset);
+	void addPhysicsPolygon(Tmx::Object* object, CompositeSprite* compSprite, const Vector2* offset);
+	void addPhysicsEllipse(Tmx::Object* object, CompositeSprite* compSprite, const Vector2* offset);
+	void addPhysicsRectangle(Tmx::Object* object, CompositeSprite* compSprite, const Vector2* offset);
 
 public:
 	inline bool setMap( const char* pMapAssetId ){ if (pMapAssetId == NULL) return false; mMapAsset = pMapAssetId; BuildMap(); return false;}

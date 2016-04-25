@@ -51,14 +51,16 @@ namespace Tmx
 	void ObjectGroup::Parse(const TiXmlNode *objectGroupNode) 
 	{
 		const TiXmlElement *objectGroupElem = objectGroupNode->ToElement();
+		if (objectGroupElem) {
+			// Read the object group attributes.
+			const char* nom = objectGroupElem->Attribute("name");
+			if (nom)
+				name = nom;
 
-		// Read the object group attributes.
-		name = objectGroupElem->Attribute("name");
-		
-		objectGroupElem->Attribute("width", &width);
-		objectGroupElem->Attribute("height", &height);
-		objectGroupElem->Attribute("visible", &visible);
-
+			objectGroupElem->Attribute("width", &width);
+			objectGroupElem->Attribute("height", &height);
+			objectGroupElem->Attribute("visible", &visible);
+		}
 		// Read the properties.
 		const TiXmlNode *propertiesNode = objectGroupNode->FirstChild("properties");
 		if (propertiesNode) 
