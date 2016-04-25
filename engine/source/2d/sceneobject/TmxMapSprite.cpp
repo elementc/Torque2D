@@ -185,8 +185,8 @@ void TmxMapSprite::BuildMap()
 				F32 spriteHeight = static_cast<F32>( tset->GetTileHeight() );
 				F32 spriteWidth = static_cast<F32>( tset->GetTileWidth() );
 
-				F32 heightOffset = (spriteHeight - tileHeight) / 2;
-				F32 widthOffset = (spriteWidth - tileWidth) / 2;
+				//F32 heightOffset = (spriteHeight - tileHeight) / 2;
+				//F32 widthOffset = (spriteWidth - tileWidth) / 2;
 
 				auto bId = compSprite->addSprite( SpriteBatchItem::LogicalPosition( Vector2(static_cast<F32>(x),static_cast<F32>(yTiles-y)).scriptThis()) );
 				compSprite->selectSpriteId(bId);

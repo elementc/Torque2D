@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="40" height="40" tilewidth="32" tileheight="32">
- <tileset firstgid="1" name="town" tilewidth="32" tileheight="32">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="32" tileheight="32" nextobjectid="25">
+ <tileset firstgid="1" name="town" tilewidth="32" tileheight="32" tilecount="209" columns="19">
   <image source="../images/town.png" width="628" height="370"/>
   <tile id="1">
    <properties>
@@ -193,7 +193,7 @@
    </properties>
   </tile>
  </tileset>
- <tileset firstgid="210" name="Others" tilewidth="32" tileheight="32">
+ <tileset firstgid="210" name="Others" tilewidth="32" tileheight="32" tilecount="42" columns="7">
   <image source="../images/town1.png" width="246" height="209"/>
   <tile id="9">
    <properties>
@@ -261,7 +261,7 @@
    </properties>
   </tile>
  </tileset>
- <tileset firstgid="252" name="Woodland_x3" tilewidth="32" tileheight="32">
+ <tileset firstgid="252" name="Woodland_x3" tilewidth="32" tileheight="32" tilecount="96" columns="16">
   <image source="../images/Woodland_x3.png" width="512" height="192"/>
   <tile id="0">
    <properties>
@@ -332,6 +332,11 @@
    <properties>
     <property name="Tag" value="TileCollision"/>
    </properties>
+   <objectgroup draworder="index" name="Collision">
+    <object id="0" x="23" y="8.5">
+     <polyline points="0,0 -6,3.5 -6.5,14.5 9.5,18 9.5,0 1,0.5"/>
+    </object>
+   </objectgroup>
   </tile>
   <tile id="33">
    <properties>
@@ -361,16 +366,16 @@
  </tileset>
  <layer name="Floor" width="40" height="40">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3VYQ7CIAwFYK5qdgXjbTwCR4EzqclIXl7aDQwFdP3xQkRk3zrLUgghv5MWGLXMdrnPfSuMo3xPyNV9uWF/r5/7RvmOgr6ztfj/vpKv9vlqFulcsPQd1Y/XjPBhbhD2Sb/T5qx8XIMVfLh3pDnJt8GY9nGDecv6Rfp+hfqxT+sPrClfE/u7py+SgT9L54vUy1zfnr4SzcXnC9cP50b7atwcK1+xfGPC++ndH2ejdF3prIzCul6+lufGNZ/pk+o3y1feuzW+8r4Y5fvse9+DPaL5HntmP98Y6vrS2qeNLbE4/9znvn/x1cR9v+/LSl6AqcfwABkAAA==
+   H4sIAAAAAAAAA+3VYQ7CIAwFYK5qdgXjbTwCR4EzqclIXl7aDQwFdP3xQkRk3zrLUgghv5MWGLXMdrnPfSuMo3xPyNV9uWF/r5/7RvmOgr6ztfj/vpKv9vlqFulcsPQd1Y/XjPBhbhD2Sb/T5qx8XIMVfLh3pDnJt8GY9nGDecv6Rfp+hfqxT+sPrClfE/u7py+SgT9L54vUy1zfnr4SzcXnC9cP50b7atwcK1+xfGPC++ndH2ejdF3prIzCul6+lufGNZ/pk+o3y1feuzW+8r4Y5fvse9+DPaL5HntmP98Y6vrS2qeNLbE4/9znvn/x1cR9v+/LSl6AqcfwABkAAA==
   </data>
  </layer>
  <layer name="Fringe" width="40" height="40">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+1YS07DMBB19nz3UMoREFdASJwAsawqVRViWfUAXbOo2HAF1lW3nIWL0IJd5bUvkxnHbtoN9KmjOPE4fvPx2KlzBxzwj1D4X7HfKZZefrR7ZW6pe+b7z4v681YQ85749qlyj7kZ6Pv27YWXrm9fF/V3tIG0uePbV/Ru3GNuBvqOvBwrY9r4EWOlzVo8zXlKnQsvl8rYNn6UY2GzFk9rHuhYYzstfGjFQIunjDkgY66NZdtSubIexj/79kuCMJp0p8K2Wg4ZYJswfpZgVy4m4l7mgYW1TbQGwC/mx6l4T4rPV2NEDbPyJYB9y2sA/GJ+nLuNTyYNujwmp26zbzmPZ8acXTEXg3XHEX5mDVNgrVv2X8/LV3kN/N4j/MCrT8Lcgsjan1IXpS3Mb0RyS22NXz8i4CfniuXfGqLGa/H98PJQXuEPjV9H4RaefZZjUv2mrQ1ZX3LXR4jvTXllwbM5+aJpX9bWhozv0G1qw0A8G7gqhuUz+PitFPgdNsmzj+VHjjt4cXz3AV6/OfkHXm32D94f2O+vhk7KurVs2Kf/tvHbCrTvBDtTzgSMxn3NVesLkFKfA7T9bRv0lfacrnLdptYZ5O1C4dcT0sRP7h9zcXWunvMWmD++HVb8KN675Je1b7jq+QrfDoEfxztwuvNyn8C1T7oav9zvENgj84/PM2G/ffTy5Kr78Uh535h0cV7Q8i8VsCeWf22h5V/q9wfsCbrIP66vuxDshZx/qd8fjnSRf9q3bqxu4T8DBvdr+Zdz/rPqINsYq1v8n4HWH8u/1HyUddA642p1C37X+pdOz79caBw0G5vslf3hXbvgp3FI3X9jOrn15IC/iV+IPSbpABkAAA==
+   H4sIAAAAAAAAA+1YS07DMBB19nz3UMoREFdASJwAsawqVRViWfUAXbOo2HAF1lW3nIWL0IJd5bUvkxnHbtoN9KmjOPE4fvPx2KlzBxzwj1D4X7HfKZZefrR7ZW6pe+b7z4v681YQ85749qlyj7kZ6Pv27YWXrm9fF/V3tIG0uePbV/Ru3GNuBvqOvBwrY9r4EWOlzVo8zXlKnQsvl8rYNn6UY2GzFk9rHuhYYzstfGjFQIunjDkgY66NZdtSubIexj/79kuCMJp0p8K2Wg4ZYJswfpZgVy4m4l7mgYW1TbQGwC/mx6l4T4rPV2NEDbPyJYB9y2sA/GJ+nLuNTyYNujwmp26zbzmPZ8acXTEXg3XHEX5mDVNgrVv2X8/LV3kN/N4j/MCrT8Lcgsjan1IXpS3Mb0RyS22NXz8i4CfniuXfGqLGa/H98PJQXuEPjV9H4RaefZZjUv2mrQ1ZX3LXR4jvTXllwbM5+aJpX9bWhozv0G1qw0A8G7gqhuUz+PitFPgdNsmzj+VHjjt4cXz3AV6/OfkHXm32D94f2O+vhk7KurVs2Kf/tvHbCrTvBDtTzgSMxn3NVesLkFKfA7T9bRv0lfacrnLdptYZ5O1C4dcT0sRP7h9zcXWunvMWmD++HVb8KN675Je1b7jq+QrfDoEfxztwuvNyn8C1T7oav9zvENgj84/PM2G/ffTy5Kr78Uh535h0cV7Q8i8VsCeWf22h5V/q9wfsCbrIP66vuxDshZx/qd8fjnSRf9q3bqxu4T8DBvdr+Zdz/rPqINsYq1v8n4HWH8u/1HyUddA642p1C37X+pdOz79caBw0G5vslf3hXbvgp3FI3X9jOrn15IC/iV+IPSbpABkAAA==
   </data>
  </layer>
- <objectgroup name="Script" width="40" height="40">
-  <object name="Function" type="Player" gid="189" x="702" y="805" width="96" height="128">
+ <objectgroup name="Script">
+  <object id="1" name="Function" type="Player" gid="189" x="702" y="805" width="96" height="128">
    <properties>
     <property name="Animation" value="&quot;ToyAssets:TD_Knight_MoveWest&quot;"/>
     <property name="DefaultDensity" value="0.5"/>
@@ -384,64 +389,64 @@
  </objectgroup>
  <layer name="Over" width="40" height="40">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+2Yy0oDMRSGzyiigpeNStG6cqEi6k6kFqmufAYpiHTv5SF8hD6dbryAongpqCDU6h/MkBgynSiTy0A++Mi0PUxOTmZ6OiWKRCKRcOnCz5yYHvxykIuOsYRoPOkfM4HPJ3NibFHFvPOe5rZN03cCfTiCx/DE8bxNZXQ9N7vUBuAgHOIOwxE4SqImrmsj78c0nIEV7iycg9Wcc7S4NlmES3AZrnBX4RpcV2LlWrcU5ZoXBdvfGtyCdbjNbcAduKvET5GoNeMVPvL8TGtuiu5+aytjuoZ0lGutklVzm6RrkNeS1vqAx+zzsUH6mvuinXHsE5PvQF89xKQ/FNlDytgrz+GF+3SMuIRX8BreeM5F5RbewUPuA4lezNT1BFu9rat57wk+wxfYgfckejGzqJ7wX97gu/T6g0QvZrrsCUnGb/dT6XgDbsIF+unHjFrG+c6KSqwk6K6/EOgZxvh6rv1FSZ8fg6gdx2S//0JIa9Nh6/+OPY0mcRH36PYqJL8BZBBzwgAZAAA=
+   H4sIAAAAAAAAA+2Yy0oDMRSGzyiigpeNStG6cqEi6k6kFqmufAYpiHTv5SF8hD6dbryAongpqCDU6h/MkBgynSiTy0A++Mi0PUxOTmZ6OiWKRCKRcOnCz5yYHvxykIuOsYRoPOkfM4HPJ3NibFHFvPOe5rZN03cCfTiCx/DE8bxNZXQ9N7vUBuAgHOIOwxE4SqImrmsj78c0nIEV7iycg9Wcc7S4NlmES3AZrnBX4RpcV2LlWrcU5ZoXBdvfGtyCdbjNbcAduKvET5GoNeMVPvL8TGtuiu5+aytjuoZ0lGutklVzm6RrkNeS1vqAx+zzsUH6mvuinXHsE5PvQF89xKQ/FNlDytgrz+GF+3SMuIRX8BreeM5F5RbewUPuA4lezNT1BFu9rat57wk+wxfYgfckejGzqJ7wX97gu/T6g0QvZrrsCUnGb/dT6XgDbsIF+unHjFrG+c6KSqwk6K6/EOgZxvh6rv1FSZ8fg6gdx2S//0JIa9Nh6/+OPY0mcRH36PYqJL8BZBBzwgAZAAA=
   </data>
  </layer>
  <layer name="Hip roof" width="40" height="40">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3VOwrCUBRF0TgBKwekg3QMOhlHoI0f8ItfFEwhbgtBkRfBKOcazoJdpAjvdDfLzMysjIt6wBv1mnqBRdCngXpEwpBGNKbJD99pfPDPlGY0pwUtafXNUSWtaUNb2tGeDtJFz450evg+Uy7aYmbV49v26n6vblL3KsptS92rCLet6F5FuW1NagneNbP/0FYPKNChrnpEMD31gIq7Ah5xH08AGQAA
+   H4sIAAAAAAAAA+3VOwrCUBRF0TgBKwekg3QMOhlHoI0f8ItfFEwhbgtBkRfBKOcazoJdpAjvdDfLzMysjIt6wBv1mnqBRdCngXpEwpBGNKbJD99pfPDPlGY0pwUtafXNUSWtaUNb2tGeDtJFz450evg+Uy7aYmbV49v26n6vblL3KsptS92rCLet6F5FuW1NagneNbP/0FYPKNChrnpEMD31gIq7Ah5xH08AGQAA
   </data>
  </layer>
- <objectgroup name="Collision" width="40" height="40">
-  <object name="Rectangle1" x="412" y="1145" width="162" height="42"/>
-  <object name="Circle1" x="735" y="1149" width="128" height="39">
+ <objectgroup name="Collision">
+  <object id="2" name="Rectangle1" x="412" y="1145" width="162" height="42"/>
+  <object id="3" name="Circle1" x="735" y="1149" width="128" height="39">
    <ellipse/>
   </object>
-  <object name="Poly1" x="442" y="436">
+  <object id="4" name="Poly1" x="442" y="436">
    <polygon points="0,0 205,0 205,82 0,81"/>
   </object>
-  <object name="Poly2" x="449" y="519">
+  <object id="5" name="Poly2" x="449" y="519">
    <polygon points="0,0 192,2 191,57 -1,56"/>
   </object>
-  <object name="Poly3" x="513" y="579">
+  <object id="6" name="Poly3" x="513" y="579">
    <polygon points="0,0 1,30 94,29 95,-2"/>
   </object>
-  <object name="Poly4" x="854" y="455">
+  <object id="7" name="Poly4" x="854" y="455">
    <polygon points="0,0 73,-70 145,-1 145,74 0,72"/>
   </object>
-  <object name="Poly5" x="795" y="499">
+  <object id="8" name="Poly5" x="795" y="499">
    <polygon points="0,0 270,1 269,82 0,78"/>
   </object>
-  <object name="Poly6" x="801" y="582">
+  <object id="9" name="Poly6" x="801" y="582">
    <polygon points="0,0 254,2 257,59 -2,56"/>
   </object>
-  <object x="903" y="1036" width="54" height="52">
+  <object id="10" x="903" y="1036" width="54" height="52">
    <ellipse/>
   </object>
-  <object x="745" y="1040" width="68" height="62">
+  <object id="11" x="745" y="1040" width="68" height="62">
    <ellipse/>
   </object>
-  <object x="231" y="1003" width="61" height="58">
+  <object id="12" x="231" y="1003" width="61" height="58">
    <ellipse/>
   </object>
-  <object x="481" y="903" width="223" height="52"/>
-  <object x="616" y="818" width="95" height="79"/>
-  <object x="468" y="805" width="146" height="93"/>
-  <object x="491" y="769" width="100" height="34"/>
-  <object x="519" y="740" width="50" height="26"/>
-  <object x="821" y="803" width="147" height="73"/>
-  <object x="832" y="881" width="128" height="75"/>
-  <object x="847" y="782" width="92" height="18"/>
-  <object x="1" y="1275">
+  <object id="13" x="481" y="903" width="223" height="52"/>
+  <object id="14" x="616" y="818" width="95" height="79"/>
+  <object id="15" x="468" y="805" width="146" height="93"/>
+  <object id="16" x="491" y="769" width="100" height="34"/>
+  <object id="17" x="519" y="740" width="50" height="26"/>
+  <object id="18" x="821" y="803" width="147" height="73"/>
+  <object id="19" x="832" y="881" width="128" height="75"/>
+  <object id="20" x="847" y="782" width="92" height="18"/>
+  <object id="21" x="1" y="1275">
    <polyline points="0,0 1,-1272 1278,-1267 1272,2 0,2"/>
   </object>
-  <object x="-18" y="756">
+  <object id="22" x="-18" y="756">
    <polyline points="0,0 64,-64 -8,-238"/>
   </object>
-  <object x="1380" y="616">
+  <object id="23" x="1380" y="616">
    <polyline points="0,0 -142,124 -10,360"/>
   </object>
-  <object x="438" y="-52">
+  <object id="24" x="438" y="-52">
    <polyline points="0,0 118,138 438,-8"/>
   </object>
  </objectgroup>

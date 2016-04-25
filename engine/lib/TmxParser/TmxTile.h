@@ -24,10 +24,12 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 // Author: Tamir Atias
+// Major revisions: Casey Doran
 //-----------------------------------------------------------------------------
 #pragma once
 
 #include "TmxPropertySet.h"
+#include "TmxObjectGroup.h"
 
 namespace Tmx 
 {
@@ -52,10 +54,13 @@ namespace Tmx
 
 		// Get a set of properties regarding the tile.
 		const Tmx::PropertySet &GetProperties() const { return properties; }
+        const Tmx::ObjectGroup &GetObjectGroup() const{ return
+            objects;}
 
 	private:
 		int id;
 
 		Tmx::PropertySet properties;
+        Tmx::ObjectGroup objects;
 	};
 };

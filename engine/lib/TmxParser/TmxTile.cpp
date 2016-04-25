@@ -24,6 +24,7 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 // Author: Tamir Atias
+// Major revisions: Casey Doran
 //-----------------------------------------------------------------------------
 #include "tinyxml/tinyxml.h"
 
@@ -51,5 +52,12 @@ namespace Tmx
 		{
 			properties.Parse(propertiesNode);
 		}
+        
+        //Parse the objects, if any
+        const TiXmlNode *objectsNode = tileNode->FirstChild("objectgroup");
+        
+        if (objectsNode){
+            objects.Parse(objectsNode);
+        }
 	}
 };
